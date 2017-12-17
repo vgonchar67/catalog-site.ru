@@ -1,7 +1,7 @@
 <?php
-namespace gbook\core;
+namespace app\core;
 
-use gbook\exceptions\CoreException;
+use app\exceptions\CoreException;
 
 class Application {
 	

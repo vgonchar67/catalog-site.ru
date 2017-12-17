@@ -11,5 +11,5 @@ session_start();
 
 $config = require '../application/config.php';
 
-$application = new \gbook\core\Application($config);
+$application = new \app\core\Application($config);
 $application->run();

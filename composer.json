@@ -9,7 +9,7 @@
     ],
 	"autoload": {
 		"psr-4": {
-			"gbook\\": "application"
+			"app\\": "application"
 		}
 	},
     "require-dev": {
