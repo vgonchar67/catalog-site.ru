@@ -7,7 +7,6 @@ use app\core\ErrorHandler;
 
 class Category {
 
-	const STATUS_MODERATION = 0;
 	const UNKNOWN_ERROR = 'Неизвестная ошибка';
 	const TABLE_NAME = 'category';
 	static $fields = ['id', 'name', 'preview_text', 'detail_text', 'active'];
@@ -18,6 +17,7 @@ class Category {
 			'.{3,}' => 'Минимум 3 символа'
 		]
 	];
+
 
 	/**
 	 * Добавляет категорию

@@ -13,6 +13,7 @@
 		}
     },
     "require": {
-        "twig/twig":"~2.0"
+        "twig/twig":"~2.0",
+        "propel/propel1": "~1.6"
     }
 }
