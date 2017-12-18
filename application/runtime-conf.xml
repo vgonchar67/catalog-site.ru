@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<config>
+<datasources default="fruitbasket">
+<datasource id="fruitbasket">
+<adapter>mysql</adapter>
+<connection>
+<phptype>mysql</phptype>
+<hostspec>localhost</hostspec>
+<database>catalog-site</database>
+<username>root</username>
+<password></password>
+</connection>
+</datasource>
+</datasources>
+</config>

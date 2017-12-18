@@ -8,12 +8,14 @@
         }
     ],
 	"autoload": {
+        "classmap": ["generated-classes/"],
 		"psr-4": {
-			"app\\": "application"
+            "app\\": "application"
+            
 		}
     },
     "require": {
         "twig/twig":"~2.0",
-        "propel/propel1": "~1.6"
+        "propel/propel": "~2.0@dev"
     }
 }

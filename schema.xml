@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="catalog-site" defaultIdMethod="native" namespace="Catalog">
+    <table name="category" phpName="Category"> <!--  таблица книг  -->
+        <!--  описываем поля таблицы -->
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="name" type="varchar" size="255" required="true" />
+        <column name="preview_text" type="longvarchar"/>
+        <column name="detail_text" type="longvarchar"/>
+        <column name="active" type="integer" required="true"/>
+
+        <!--  описываем внешний ключ  
+        <foreign-key foreignTable="publisher" phpName="Publisher" refPhpName="Book">
+            <reference local="publisher_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="author">
+            <reference local="author_id" foreign="id"/>
+        </foreign-key>-->
+    </table>
+ 
+    <table name="goods" phpName="Goods"> <!--  таблица авторов  -->
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="name" type="varchar" size="100" required="true"/>
+        <column name="preview_text" type="longvarchar"/>
+        <column name="detail_text" type="longvarchar"/>
+    </table>
+</database>
