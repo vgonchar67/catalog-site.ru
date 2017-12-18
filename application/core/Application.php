@@ -40,7 +40,5 @@ class Application {
         define('DB_NAME', $this->config->db['name']);
         define('DB_USER', $this->config->db['user']);
         define('DB_PASSWORD', $this->config->db['password']);
-		define('APP_ROOT', '../application/');
-		define('VIEWS_ROOT', '../application/views/');
     }
 }
