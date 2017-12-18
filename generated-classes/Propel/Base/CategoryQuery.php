@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Base;
+namespace Propel\Base;
 
 use \Exception;
 use \PDO;
-use Catalog\Goods as ChildGoods;
-use Catalog\GoodsQuery as ChildGoodsQuery;
-use Catalog\Map\GoodsTableMap;
+use Propel\Category as ChildCategory;
+use Propel\CategoryQuery as ChildCategoryQuery;
+use Propel\Map\CategoryTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -15,82 +15,87 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'goods' table.
+ * Base class that represents a query for the 'category' table.
  *
  *
  *
- * @method     ChildGoodsQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildGoodsQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method     ChildGoodsQuery orderByPreviewText($order = Criteria::ASC) Order by the preview_text column
- * @method     ChildGoodsQuery orderByDetailText($order = Criteria::ASC) Order by the detail_text column
+ * @method     ChildCategoryQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildCategoryQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildCategoryQuery orderByPreviewText($order = Criteria::ASC) Order by the preview_text column
+ * @method     ChildCategoryQuery orderByDetailText($order = Criteria::ASC) Order by the detail_text column
+ * @method     ChildCategoryQuery orderByActive($order = Criteria::ASC) Order by the active column
  *
- * @method     ChildGoodsQuery groupById() Group by the id column
- * @method     ChildGoodsQuery groupByName() Group by the name column
- * @method     ChildGoodsQuery groupByPreviewText() Group by the preview_text column
- * @method     ChildGoodsQuery groupByDetailText() Group by the detail_text column
+ * @method     ChildCategoryQuery groupById() Group by the id column
+ * @method     ChildCategoryQuery groupByName() Group by the name column
+ * @method     ChildCategoryQuery groupByPreviewText() Group by the preview_text column
+ * @method     ChildCategoryQuery groupByDetailText() Group by the detail_text column
+ * @method     ChildCategoryQuery groupByActive() Group by the active column
  *
- * @method     ChildGoodsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildGoodsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildGoodsQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildCategoryQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildCategoryQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildCategoryQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildGoodsQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildGoodsQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildGoodsQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildCategoryQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildCategoryQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildCategoryQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildGoods findOne(ConnectionInterface $con = null) Return the first ChildGoods matching the query
- * @method     ChildGoods findOneOrCreate(ConnectionInterface $con = null) Return the first ChildGoods matching the query, or a new ChildGoods object populated from the query conditions when no match is found
+ * @method     ChildCategory findOne(ConnectionInterface $con = null) Return the first ChildCategory matching the query
+ * @method     ChildCategory findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCategory matching the query, or a new ChildCategory object populated from the query conditions when no match is found
  *
- * @method     ChildGoods findOneById(int $id) Return the first ChildGoods filtered by the id column
- * @method     ChildGoods findOneByName(string $name) Return the first ChildGoods filtered by the name column
- * @method     ChildGoods findOneByPreviewText(string $preview_text) Return the first ChildGoods filtered by the preview_text column
- * @method     ChildGoods findOneByDetailText(string $detail_text) Return the first ChildGoods filtered by the detail_text column *
+ * @method     ChildCategory findOneById(int $id) Return the first ChildCategory filtered by the id column
+ * @method     ChildCategory findOneByName(string $name) Return the first ChildCategory filtered by the name column
+ * @method     ChildCategory findOneByPreviewText(string $preview_text) Return the first ChildCategory filtered by the preview_text column
+ * @method     ChildCategory findOneByDetailText(string $detail_text) Return the first ChildCategory filtered by the detail_text column
+ * @method     ChildCategory findOneByActive(int $active) Return the first ChildCategory filtered by the active column *
 
- * @method     ChildGoods requirePk($key, ConnectionInterface $con = null) Return the ChildGoods by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildGoods requireOne(ConnectionInterface $con = null) Return the first ChildGoods matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requirePk($key, ConnectionInterface $con = null) Return the ChildCategory by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOne(ConnectionInterface $con = null) Return the first ChildCategory matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildGoods requireOneById(int $id) Return the first ChildGoods filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildGoods requireOneByName(string $name) Return the first ChildGoods filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildGoods requireOneByPreviewText(string $preview_text) Return the first ChildGoods filtered by the preview_text column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildGoods requireOneByDetailText(string $detail_text) Return the first ChildGoods filtered by the detail_text column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOneById(int $id) Return the first ChildCategory filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOneByName(string $name) Return the first ChildCategory filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOneByPreviewText(string $preview_text) Return the first ChildCategory filtered by the preview_text column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOneByDetailText(string $detail_text) Return the first ChildCategory filtered by the detail_text column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOneByActive(int $active) Return the first ChildCategory filtered by the active column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildGoods[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildGoods objects based on current ModelCriteria
- * @method     ChildGoods[]|ObjectCollection findById(int $id) Return ChildGoods objects filtered by the id column
- * @method     ChildGoods[]|ObjectCollection findByName(string $name) Return ChildGoods objects filtered by the name column
- * @method     ChildGoods[]|ObjectCollection findByPreviewText(string $preview_text) Return ChildGoods objects filtered by the preview_text column
- * @method     ChildGoods[]|ObjectCollection findByDetailText(string $detail_text) Return ChildGoods objects filtered by the detail_text column
- * @method     ChildGoods[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildCategory[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCategory objects based on current ModelCriteria
+ * @method     ChildCategory[]|ObjectCollection findById(int $id) Return ChildCategory objects filtered by the id column
+ * @method     ChildCategory[]|ObjectCollection findByName(string $name) Return ChildCategory objects filtered by the name column
+ * @method     ChildCategory[]|ObjectCollection findByPreviewText(string $preview_text) Return ChildCategory objects filtered by the preview_text column
+ * @method     ChildCategory[]|ObjectCollection findByDetailText(string $detail_text) Return ChildCategory objects filtered by the detail_text column
+ * @method     ChildCategory[]|ObjectCollection findByActive(int $active) Return ChildCategory objects filtered by the active column
+ * @method     ChildCategory[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class GoodsQuery extends ModelCriteria
+abstract class CategoryQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Catalog\Base\GoodsQuery object.
+     * Initializes internal state of \Propel\Base\CategoryQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'catalog-site', $modelName = '\\Catalog\\Goods', $modelAlias = null)
+    public function __construct($dbName = 'catalog-site', $modelName = '\\Propel\\Category', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildGoodsQuery object.
+     * Returns a new ChildCategoryQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildGoodsQuery
+     * @return ChildCategoryQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildGoodsQuery) {
+        if ($criteria instanceof ChildCategoryQuery) {
             return $criteria;
         }
-        $query = new ChildGoodsQuery();
+        $query = new ChildCategoryQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -113,7 +118,7 @@ abstract class GoodsQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildGoods|array|mixed the result, formatted by the current formatter
+     * @return ChildCategory|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -122,7 +127,7 @@ abstract class GoodsQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(GoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(CategoryTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -135,7 +140,7 @@ abstract class GoodsQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = GoodsTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = CategoryTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -152,11 +157,11 @@ abstract class GoodsQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildGoods A model object, or null if the key is not found
+     * @return ChildCategory A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, name, preview_text, detail_text FROM goods WHERE id = :p0';
+        $sql = 'SELECT id, name, preview_text, detail_text, active FROM category WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -167,10 +172,10 @@ abstract class GoodsQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildGoods $obj */
-            $obj = new ChildGoods();
+            /** @var ChildCategory $obj */
+            $obj = new ChildCategory();
             $obj->hydrate($row);
-            GoodsTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            CategoryTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -183,7 +188,7 @@ abstract class GoodsQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildGoods|array|mixed the result, formatted by the current formatter
+     * @return ChildCategory|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -225,12 +230,12 @@ abstract class GoodsQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(GoodsTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(CategoryTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -238,12 +243,12 @@ abstract class GoodsQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(GoodsTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(CategoryTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -262,18 +267,18 @@ abstract class GoodsQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(GoodsTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(CategoryTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(GoodsTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(CategoryTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -284,7 +289,7 @@ abstract class GoodsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GoodsTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(CategoryTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -299,7 +304,7 @@ abstract class GoodsQuery extends ModelCriteria
      * @param     string $name The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
     public function filterByName($name = null, $comparison = null)
     {
@@ -309,7 +314,7 @@ abstract class GoodsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GoodsTableMap::COL_NAME, $name, $comparison);
+        return $this->addUsingAlias(CategoryTableMap::COL_NAME, $name, $comparison);
     }
 
     /**
@@ -324,7 +329,7 @@ abstract class GoodsQuery extends ModelCriteria
      * @param     string $previewText The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
     public function filterByPreviewText($previewText = null, $comparison = null)
     {
@@ -334,7 +339,7 @@ abstract class GoodsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GoodsTableMap::COL_PREVIEW_TEXT, $previewText, $comparison);
+        return $this->addUsingAlias(CategoryTableMap::COL_PREVIEW_TEXT, $previewText, $comparison);
     }
 
     /**
@@ -349,7 +354,7 @@ abstract class GoodsQuery extends ModelCriteria
      * @param     string $detailText The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
     public function filterByDetailText($detailText = null, $comparison = null)
     {
@@ -359,27 +364,68 @@ abstract class GoodsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GoodsTableMap::COL_DETAIL_TEXT, $detailText, $comparison);
+        return $this->addUsingAlias(CategoryTableMap::COL_DETAIL_TEXT, $detailText, $comparison);
+    }
+
+    /**
+     * Filter the query on the active column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByActive(1234); // WHERE active = 1234
+     * $query->filterByActive(array(12, 34)); // WHERE active IN (12, 34)
+     * $query->filterByActive(array('min' => 12)); // WHERE active > 12
+     * </code>
+     *
+     * @param     mixed $active The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
+     */
+    public function filterByActive($active = null, $comparison = null)
+    {
+        if (is_array($active)) {
+            $useMinMax = false;
+            if (isset($active['min'])) {
+                $this->addUsingAlias(CategoryTableMap::COL_ACTIVE, $active['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($active['max'])) {
+                $this->addUsingAlias(CategoryTableMap::COL_ACTIVE, $active['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(CategoryTableMap::COL_ACTIVE, $active, $comparison);
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildGoods $goods Object to remove from the list of results
+     * @param   ChildCategory $category Object to remove from the list of results
      *
-     * @return $this|ChildGoodsQuery The current query, for fluid interface
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
-    public function prune($goods = null)
+    public function prune($category = null)
     {
-        if ($goods) {
-            $this->addUsingAlias(GoodsTableMap::COL_ID, $goods->getId(), Criteria::NOT_EQUAL);
+        if ($category) {
+            $this->addUsingAlias(CategoryTableMap::COL_ID, $category->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the goods table.
+     * Deletes all rows from the category table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -387,7 +433,7 @@ abstract class GoodsQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoryTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -398,8 +444,8 @@ abstract class GoodsQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            GoodsTableMap::clearInstancePool();
-            GoodsTableMap::clearRelatedInstancePool();
+            CategoryTableMap::clearInstancePool();
+            CategoryTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -417,26 +463,26 @@ abstract class GoodsQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoryTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(GoodsTableMap::DATABASE_NAME);
+        $criteria->setDbName(CategoryTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            GoodsTableMap::removeInstanceFromPool($criteria);
+            CategoryTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            GoodsTableMap::clearRelatedInstancePool();
+            CategoryTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // GoodsQuery
+} // CategoryQuery

@@ -1,9 +1,11 @@
 <?php
 
-use Base\Goods as BaseGoods;
+namespace Propel;
+
+use Propel\Base\Category as BaseCategory;
 
 /**
- * Skeleton subclass for representing a row from the 'goods' table.
+ * Skeleton subclass for representing a row from the 'category' table.
  *
  *
  *
@@ -12,7 +14,7 @@ use Base\Goods as BaseGoods;
  * long as it does not already exist in the output directory.
  *
  */
-class Goods extends BaseGoods
+class Category extends BaseCategory
 {
 
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Catalog\Base;
+namespace Propel\Base;
 
 use \Exception;
 use \PDO;
-use Catalog\GoodsQuery as ChildGoodsQuery;
-use Catalog\Map\GoodsTableMap;
+use Propel\GoodsQuery as ChildGoodsQuery;
+use Propel\Map\GoodsTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -23,14 +23,14 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  *
  *
- * @package    propel.generator.Catalog.Base
+ * @package    propel.generator.Propel.Base
  */
 abstract class Goods implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Catalog\\Map\\GoodsTableMap';
+    const TABLE_MAP = '\\Propel\\Map\\GoodsTableMap';
 
 
     /**
@@ -96,7 +96,7 @@ abstract class Goods implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Catalog\Base\Goods object.
+     * Initializes internal state of Propel\Base\Goods object.
      */
     public function __construct()
     {
@@ -364,7 +364,7 @@ abstract class Goods implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Catalog\Goods The current object (for fluent API support)
+     * @return $this|\Propel\Goods The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -384,7 +384,7 @@ abstract class Goods implements ActiveRecordInterface
      * Set the value of [name] column.
      *
      * @param string $v new value
-     * @return $this|\Catalog\Goods The current object (for fluent API support)
+     * @return $this|\Propel\Goods The current object (for fluent API support)
      */
     public function setName($v)
     {
@@ -404,7 +404,7 @@ abstract class Goods implements ActiveRecordInterface
      * Set the value of [preview_text] column.
      *
      * @param string $v new value
-     * @return $this|\Catalog\Goods The current object (for fluent API support)
+     * @return $this|\Propel\Goods The current object (for fluent API support)
      */
     public function setPreviewText($v)
     {
@@ -424,7 +424,7 @@ abstract class Goods implements ActiveRecordInterface
      * Set the value of [detail_text] column.
      *
      * @param string $v new value
-     * @return $this|\Catalog\Goods The current object (for fluent API support)
+     * @return $this|\Propel\Goods The current object (for fluent API support)
      */
     public function setDetailText($v)
     {
@@ -498,7 +498,7 @@ abstract class Goods implements ActiveRecordInterface
             return $startcol + 4; // 4 = GoodsTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Catalog\\Goods'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Propel\\Goods'), 0, $e);
         }
     }
 
@@ -857,7 +857,7 @@ abstract class Goods implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Catalog\Goods
+     * @return $this|\Propel\Goods
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
@@ -872,7 +872,7 @@ abstract class Goods implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Catalog\Goods
+     * @return $this|\Propel\Goods
      */
     public function setByPosition($pos, $value)
     {
@@ -946,7 +946,7 @@ abstract class Goods implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Catalog\Goods The current object, for fluid interface
+     * @return $this|\Propel\Goods The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1059,7 +1059,7 @@ abstract class Goods implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Catalog\Goods (or compatible) type.
+     * @param      object $copyObj An object of \Propel\Goods (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1084,7 +1084,7 @@ abstract class Goods implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Catalog\Goods Clone of current object.
+     * @return \Propel\Goods Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)

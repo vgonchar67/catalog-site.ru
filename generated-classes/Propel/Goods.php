@@ -1,9 +1,11 @@
 <?php
 
-use Base\CategoryQuery as BaseCategoryQuery;
+namespace Propel;
+
+use Propel\Base\Goods as BaseGoods;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'category' table.
+ * Skeleton subclass for representing a row from the 'goods' table.
  *
  *
  *
@@ -12,7 +14,7 @@ use Base\CategoryQuery as BaseCategoryQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class CategoryQuery extends BaseCategoryQuery
+class Goods extends BaseGoods
 {
 
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Catalog\Map;
+namespace Propel\Map;
 
-use Catalog\Goods;
-use Catalog\GoodsQuery;
+use Propel\Category;
+use Propel\CategoryQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'goods' table.
+ * This class defines the structure of the 'category' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class GoodsTableMap extends TableMap
+class CategoryTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class GoodsTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Catalog.Map.GoodsTableMap';
+    const CLASS_NAME = 'Propel.Map.CategoryTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class GoodsTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'goods';
+    const TABLE_NAME = 'category';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Catalog\\Goods';
+    const OM_CLASS = '\\Propel\\Category';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Catalog.Goods';
+    const CLASS_DEFAULT = 'Propel.Category';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,27 +69,32 @@ class GoodsTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'goods.id';
+    const COL_ID = 'category.id';
 
     /**
      * the column name for the name field
      */
-    const COL_NAME = 'goods.name';
+    const COL_NAME = 'category.name';
 
     /**
      * the column name for the preview_text field
      */
-    const COL_PREVIEW_TEXT = 'goods.preview_text';
+    const COL_PREVIEW_TEXT = 'category.preview_text';
 
     /**
      * the column name for the detail_text field
      */
-    const COL_DETAIL_TEXT = 'goods.detail_text';
+    const COL_DETAIL_TEXT = 'category.detail_text';
+
+    /**
+     * the column name for the active field
+     */
+    const COL_ACTIVE = 'category.active';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +108,11 @@ class GoodsTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'PreviewText', 'DetailText', ),
-        self::TYPE_CAMELNAME     => array('id', 'name', 'previewText', 'detailText', ),
-        self::TYPE_COLNAME       => array(GoodsTableMap::COL_ID, GoodsTableMap::COL_NAME, GoodsTableMap::COL_PREVIEW_TEXT, GoodsTableMap::COL_DETAIL_TEXT, ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'preview_text', 'detail_text', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', 'PreviewText', 'DetailText', 'Active', ),
+        self::TYPE_CAMELNAME     => array('id', 'name', 'previewText', 'detailText', 'active', ),
+        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID, CategoryTableMap::COL_NAME, CategoryTableMap::COL_PREVIEW_TEXT, CategoryTableMap::COL_DETAIL_TEXT, CategoryTableMap::COL_ACTIVE, ),
+        self::TYPE_FIELDNAME     => array('id', 'name', 'preview_text', 'detail_text', 'active', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class GoodsTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'PreviewText' => 2, 'DetailText' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'name' => 1, 'previewText' => 2, 'detailText' => 3, ),
-        self::TYPE_COLNAME       => array(GoodsTableMap::COL_ID => 0, GoodsTableMap::COL_NAME => 1, GoodsTableMap::COL_PREVIEW_TEXT => 2, GoodsTableMap::COL_DETAIL_TEXT => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'preview_text' => 2, 'detail_text' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'PreviewText' => 2, 'DetailText' => 3, 'Active' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'name' => 1, 'previewText' => 2, 'detailText' => 3, 'active' => 4, ),
+        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID => 0, CategoryTableMap::COL_NAME => 1, CategoryTableMap::COL_PREVIEW_TEXT => 2, CategoryTableMap::COL_DETAIL_TEXT => 3, CategoryTableMap::COL_ACTIVE => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'preview_text' => 2, 'detail_text' => 3, 'active' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -134,17 +139,18 @@ class GoodsTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('goods');
-        $this->setPhpName('Goods');
+        $this->setName('category');
+        $this->setPhpName('Category');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Catalog\\Goods');
-        $this->setPackage('Catalog');
+        $this->setClassName('\\Propel\\Category');
+        $this->setPackage('Propel');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('name', 'Name', 'VARCHAR', true, 100, null);
+        $this->addColumn('name', 'Name', 'VARCHAR', true, 255, null);
         $this->addColumn('preview_text', 'PreviewText', 'LONGVARCHAR', false, null, null);
         $this->addColumn('detail_text', 'DetailText', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('active', 'Active', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -211,7 +217,7 @@ class GoodsTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? GoodsTableMap::CLASS_DEFAULT : GoodsTableMap::OM_CLASS;
+        return $withPrefix ? CategoryTableMap::CLASS_DEFAULT : CategoryTableMap::OM_CLASS;
     }
 
     /**
@@ -225,22 +231,22 @@ class GoodsTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Goods object, last column rank)
+     * @return array           (Category object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = GoodsTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = GoodsTableMap::getInstanceFromPool($key))) {
+        $key = CategoryTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = CategoryTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + GoodsTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + CategoryTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = GoodsTableMap::OM_CLASS;
-            /** @var Goods $obj */
+            $cls = CategoryTableMap::OM_CLASS;
+            /** @var Category $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            GoodsTableMap::addInstanceToPool($obj, $key);
+            CategoryTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -263,18 +269,18 @@ class GoodsTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = GoodsTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = GoodsTableMap::getInstanceFromPool($key))) {
+            $key = CategoryTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = CategoryTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Goods $obj */
+                /** @var Category $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                GoodsTableMap::addInstanceToPool($obj, $key);
+                CategoryTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -295,15 +301,17 @@ class GoodsTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(GoodsTableMap::COL_ID);
-            $criteria->addSelectColumn(GoodsTableMap::COL_NAME);
-            $criteria->addSelectColumn(GoodsTableMap::COL_PREVIEW_TEXT);
-            $criteria->addSelectColumn(GoodsTableMap::COL_DETAIL_TEXT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_ID);
+            $criteria->addSelectColumn(CategoryTableMap::COL_NAME);
+            $criteria->addSelectColumn(CategoryTableMap::COL_PREVIEW_TEXT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_DETAIL_TEXT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_ACTIVE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.name');
             $criteria->addSelectColumn($alias . '.preview_text');
             $criteria->addSelectColumn($alias . '.detail_text');
+            $criteria->addSelectColumn($alias . '.active');
         }
     }
 
@@ -316,7 +324,7 @@ class GoodsTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(GoodsTableMap::DATABASE_NAME)->getTable(GoodsTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(CategoryTableMap::DATABASE_NAME)->getTable(CategoryTableMap::TABLE_NAME);
     }
 
     /**
@@ -324,16 +332,16 @@ class GoodsTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(GoodsTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(GoodsTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new GoodsTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(CategoryTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(CategoryTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new CategoryTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Goods or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Category or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Goods object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Category object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -344,27 +352,27 @@ class GoodsTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoryTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Catalog\Goods) { // it's a model object
+        } elseif ($values instanceof \Propel\Category) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(GoodsTableMap::DATABASE_NAME);
-            $criteria->add(GoodsTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(CategoryTableMap::DATABASE_NAME);
+            $criteria->add(CategoryTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = GoodsQuery::create()->mergeWith($criteria);
+        $query = CategoryQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            GoodsTableMap::clearInstancePool();
+            CategoryTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                GoodsTableMap::removeInstanceFromPool($singleval);
+                CategoryTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -372,20 +380,20 @@ class GoodsTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the goods table.
+     * Deletes all rows from the category table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return GoodsQuery::create()->doDeleteAll($con);
+        return CategoryQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Goods or Criteria object.
+     * Performs an INSERT on the database, given a Category or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Goods object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Category object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -394,22 +402,22 @@ class GoodsTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoryTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Goods object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Category object
         }
 
-        if ($criteria->containsKey(GoodsTableMap::COL_ID) && $criteria->keyContainsValue(GoodsTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.GoodsTableMap::COL_ID.')');
+        if ($criteria->containsKey(CategoryTableMap::COL_ID) && $criteria->keyContainsValue(CategoryTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CategoryTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = GoodsQuery::create()->mergeWith($criteria);
+        $query = CategoryQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -418,7 +426,7 @@ class GoodsTableMap extends TableMap
         });
     }
 
-} // GoodsTableMap
+} // CategoryTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-GoodsTableMap::buildTableMap();
+CategoryTableMap::buildTableMap();
