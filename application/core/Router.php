@@ -1,5 +1,5 @@
 <?php
-namespace gbook\core;
+namespace app\core;
 
 class Router {
 	
@@ -9,6 +9,7 @@ class Router {
 		$url = URL::getPath($_SERVER['REQUEST_URI']);
 		
 		foreach($routes as $pattern => $value) {
+			
 			if(preg_match("~^$pattern$~", $url)) {
 				$this->_segments = explode('/', preg_replace("~^$pattern$~", $value, $url));
 				break;

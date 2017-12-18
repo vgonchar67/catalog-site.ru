@@ -2,10 +2,7 @@
 namespace app\core;
 
 use app\exceptions\CoreException;
-
 class Application {
-	
-	public $request;
 	
 	public function __construct($config) {
 		$this->config = new Registry($config);
@@ -29,7 +26,7 @@ class Application {
 	}
 	
 	protected function loadController() {
-		$controllerClassName = 'gbook\\controllers\\'. $this->router->getControllerName() . 'Controller';
+		$controllerClassName = 'app\\controllers\\'. $this->router->getControllerName() . 'Controller';
 		if(!class_exists($controllerClassName)) {
 			throw new CoreException;
 		}
@@ -44,5 +41,6 @@ class Application {
         define('DB_USER', $this->config->db['user']);
         define('DB_PASSWORD', $this->config->db['password']);
 		define('APP_ROOT', '../application/');
+		define('VIEWS_ROOT', '../application/views/');
     }
 }

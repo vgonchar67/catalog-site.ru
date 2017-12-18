@@ -1,7 +1,7 @@
 <?php
-namespace gbook\core;
+namespace app\core;
 
-use gbook\exceptions\CoreException;
+use app\exceptions\CoreException;
 
 class Controller {
 	public $application;
@@ -11,11 +11,7 @@ class Controller {
 		$this->errorHandler = new ErrorHandler;
 		$this->view = new View;
 		$this->view->setPath('/' . $this->router->getControllerName() . '/');
-		$this->afterConstruct();
-	}
-	
-	function afterConstruct() {
-		
+		$this->view->setLayout('default');
 	}
 	
 	function run() {

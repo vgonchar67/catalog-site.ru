@@ -18,6 +18,7 @@ header {
     -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.3);
 	-moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.3);
 	box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.3);
+	z-index: 100;
 }
 
 .logo {
@@ -41,6 +42,16 @@ header {
 .header-buttons {
 	padding: 8px 0;
 }
+
+.left-sitebar {
+	width: 200px;
+	float: left;
+}
+
+.left-sitebar + .page-content {
+	margin-left: 230px;
+}
+
 
 .error-text {
 	color: #a94442;

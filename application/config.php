@@ -2,7 +2,7 @@
 return [
 	'db' => [
 		'host' => 'localhost',
-		'name' => 'guestbook',
+		'name' => 'catalog-site',
 		'user' => 'root',
 		'password' => ''
 	],

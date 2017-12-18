@@ -1,12 +1,10 @@
 <?php 
 
 return [
-	'/add' => 'index/add',
 	'/' => 'index/index',
-	'/captcha' => 'captcha/index',
-	'/admin/auth' => 'admin/auth',
 	'/admin' => 'admin/index',
-	'/admin/edit/(\d+)' => 'admin/edit/$1',
-	'/admin/delete' => 'admin/delete',
-	'/auth/logout' => 'auth/logout'
+	'/admin/categories' => 'admin/categories',
+	'/admin/categories/edit/(\d+)' => 'admin/editCategory/$1',
+	'/catalog' => 'catalog/index',
+	'/catalog/(\d+)' => 'catalog/category/$1'
 ];

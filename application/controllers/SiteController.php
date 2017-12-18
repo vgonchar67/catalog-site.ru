@@ -1,7 +1,7 @@
 <?php
-namespace gbook\controllers;
+namespace app\controllers;
 
-use gbook\core\Controller;
+use app\core\Controller;
 
 class SiteController extends Controller {
 	

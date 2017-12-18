@@ -1,9 +1,9 @@
 <?php
 
-namespace gbook\models;
-use gbook\core\Validator;
-use gbook\core\ErrorHandler;
-use gbook\core\DB;
+namespace app\models;
+use app\core\Validator;
+use app\core\ErrorHandler;
+use app\core\DB;
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

@@ -1,10 +1,10 @@
 <?php 
-namespace gbook\models;
+namespace app\models;
 
-use gbook\core\Validator;
-use gbook\core\DB;
-use gbook\core\ErrorHandler;
-use gbook\core\HtmLawed;
+use app\core\Validator;
+use app\core\DB;
+use app\core\ErrorHandler;
+use app\core\HtmLawed;
 
 class Comment {
 

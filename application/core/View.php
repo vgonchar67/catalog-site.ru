@@ -1,30 +1,36 @@
 <?php
-namespace gbook\core;
+namespace app\core;
 
-use \gbook\exceptions\CoreException;
+use \app\exceptions\CoreException;
 
 class View {
 	
 	public $data = [];
 	
-	public $templateLayuot = 'default';
-	
-	private $viewsRoot = '../application/views';
+	private $viewsRoot;
 	
 	private $path = '/';
+
+	private $twig;
+
+	private $loader;
+
+	public $layout;
 	
 	
-	protected $templateExtention = '.php';
+	protected $templateExtention = '.htm';
 	
 	
 	public function __construct() {
+		$this->viewsRoot = $_SERVER["DOCUMENT_ROOT"] . '/application/views';
+		$this->loader = new \Twig_Loader_Filesystem($this->viewsRoot . '/');
+		$this->twig = new \Twig_Environment($this->loader, array(
+			//'cache' => $this->viewsRoot . '/cache/',
+		));
 
+		
 	}
 	
-	function setLayout($layout) {
-		$this->templateLayuot = $layout;
-		return $this;
-	}
 	
 	function set(array $arr) {
 		foreach ($arr as $key => $value) {
@@ -32,32 +38,17 @@ class View {
 		}
 		return $this;
 	}
+
+	function setLayout($layout) {
+		$this->set(array("layout" => '/layouts/' . $layout . $this->templateExtention));
+	}
 	
 	public function setPath($path) {
 		$this->path = $path;
 	}
 	
-	public function parse ($template) {
-		if($template{0} == '/') {
-			$templateFile = $this->viewsRoot . $template . $this->templateExtention;
-		} else {
-			$templateFile = $this->viewsRoot . $this->path . $template . $this->templateExtention;
-		}
-		if (!file_exists($templateFile)) {
-			throw new CoreException;
-		}
-		ob_start();
-		extract($this->data, EXTR_SKIP);
-		include($templateFile);		
-		return ob_get_clean();
-	}
 	
 	public function render($template) {
-
-		$this->set([
-			'content' => $this->parse($template)
-		]);
-		
-		echo $this->parse('/layouts/' . $this->templateLayuot);
+		$this->twig->display($this->path . $template . $this->templateExtention, $this->data);
 	}
 }

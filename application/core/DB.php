@@ -1,5 +1,5 @@
 <?php 
-namespace gbook\core;
+namespace app\core;
 
 class DB {
 
