@@ -8,7 +8,6 @@ class Controller {
 	
 	function __construct(Application $application) {
 		$this->application = $application;
-		$this->errorHandler = new ErrorHandler;
 		$this->view = new View;
 		$this->view->setPath('/' . $this->router->getControllerName() . '/');
 		$this->view->setLayout('default');

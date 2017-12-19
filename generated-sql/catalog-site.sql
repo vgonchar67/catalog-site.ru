@@ -20,18 +20,41 @@ CREATE TABLE `category`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- goods
+-- product
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `goods`;
+DROP TABLE IF EXISTS `product`;
 
-CREATE TABLE `goods`
+CREATE TABLE `product`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
     `preview_text` TEXT,
     `detail_text` TEXT,
+    `active` INTEGER NOT NULL,
+    `quantity` INTEGER,
+    `order_empty_quantity` INTEGER,
     PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- category_product
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `category_product`;
+
+CREATE TABLE `category_product`
+(
+    `category_id` INTEGER NOT NULL,
+    `product_id` INTEGER NOT NULL,
+    PRIMARY KEY (`category_id`,`product_id`),
+    INDEX `category_product_fi_0f5ed8` (`product_id`),
+    CONSTRAINT `category_product_fk_904832`
+        FOREIGN KEY (`category_id`)
+        REFERENCES `category` (`id`),
+    CONSTRAINT `category_product_fk_0f5ed8`
+        FOREIGN KEY (`product_id`)
+        REFERENCES `product` (`id`)
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

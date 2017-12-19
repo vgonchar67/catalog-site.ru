@@ -2,6 +2,11 @@
 namespace App\core;
 
 use App\exceptions\CoreException;
+use App\Core\Registry;
+use App\Core\Request;
+use App\Core\Router;
+use App\Core\Response;
+
 class Application {
 	
 	public function __construct($config) {
@@ -10,7 +15,7 @@ class Application {
 		$this->router = new Router($this->config->routes);
 		$this->response = new Response;
 		
-		$this->setParams();
+		//$this->setParams();
 	}
 	
 	public function run() {
@@ -34,11 +39,11 @@ class Application {
 	}
 	
 	
-	protected function setParams()
+	/*protected function setParams()
     {
         define('DB_HOST', $this->config->db['host']);
         define('DB_NAME', $this->config->db['name']);
         define('DB_USER', $this->config->db['user']);
         define('DB_PASSWORD', $this->config->db['password']);
-    }
+    }*/
 }

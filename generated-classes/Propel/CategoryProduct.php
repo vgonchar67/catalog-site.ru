@@ -2,10 +2,10 @@
 
 namespace Propel;
 
-use Propel\Base\CategoryGoods as BaseCategoryGoods;
+use Propel\Base\CategoryProduct as BaseCategoryProduct;
 
 /**
- * Skeleton subclass for representing a row from the 'category_goods' table.
+ * Skeleton subclass for representing a row from the 'category_product' table.
  *
  *
  *
@@ -14,7 +14,7 @@ use Propel\Base\CategoryGoods as BaseCategoryGoods;
  * long as it does not already exist in the output directory.
  *
  */
-class CategoryGoods extends BaseCategoryGoods
+class CategoryProduct extends BaseCategoryProduct
 {
 
 }

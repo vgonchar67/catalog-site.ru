@@ -17,4 +17,15 @@ use Propel\Base\CategoryQuery as BaseCategoryQuery;
 class CategoryQuery extends BaseCategoryQuery
 {
 
+    static function getNamesArray() {
+        $categories = self::create()->orderByName()->find();
+		$result = array();
+		foreach($categories as $category) {
+			$result[] = [
+				'Name' => $category->getName(),
+				'Id' => $category->getId()
+            ];
+        }
+        return $result;
+    }
 }

@@ -1,17 +1,20 @@
 <?php
 namespace App\core;
 
+use App\Core\Uri;
+
 class Router {
 	
 	private $_segments = [];
 	
 	function __construct($routes) {
-		$url = URL::getPath($_SERVER['REQUEST_URI']);
+		$uri = new Uri();
+		$uriPath = $uri->getPath();
 		
 		foreach($routes as $pattern => $value) {
 			
-			if(preg_match("~^$pattern$~", $url)) {
-				$this->_segments = explode('/', preg_replace("~^$pattern$~", $value, $url));
+			if(preg_match("~^$pattern$~", $uriPath)) {
+				$this->_segments = explode('/', preg_replace("~^$pattern$~", $value, $uriPath));
 				break;
 			}
 		}

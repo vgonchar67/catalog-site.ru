@@ -5,11 +5,11 @@ namespace Propel\Base;
 use \Exception;
 use \PDO;
 use Propel\Category as ChildCategory;
-use Propel\CategoryGoodsQuery as ChildCategoryGoodsQuery;
+use Propel\CategoryProductQuery as ChildCategoryProductQuery;
 use Propel\CategoryQuery as ChildCategoryQuery;
-use Propel\Goods as ChildGoods;
-use Propel\GoodsQuery as ChildGoodsQuery;
-use Propel\Map\CategoryGoodsTableMap;
+use Propel\Product as ChildProduct;
+use Propel\ProductQuery as ChildProductQuery;
+use Propel\Map\CategoryProductTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -29,12 +29,12 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  * @package    propel.generator.Propel.Base
  */
-abstract class CategoryGoods implements ActiveRecordInterface
+abstract class CategoryProduct implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Propel\\Map\\CategoryGoodsTableMap';
+    const TABLE_MAP = '\\Propel\\Map\\CategoryProductTableMap';
 
 
     /**
@@ -83,9 +83,9 @@ abstract class CategoryGoods implements ActiveRecordInterface
     protected $aCategory;
 
     /**
-     * @var        ChildGoods
+     * @var        ChildProduct
      */
-    protected $aGoods;
+    protected $aProduct;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -96,7 +96,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Propel\Base\CategoryGoods object.
+     * Initializes internal state of Propel\Base\CategoryProduct object.
      */
     public function __construct()
     {
@@ -191,9 +191,9 @@ abstract class CategoryGoods implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>CategoryGoods</code> instance.  If
-     * <code>obj</code> is an instance of <code>CategoryGoods</code>, delegates to
-     * <code>equals(CategoryGoods)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>CategoryProduct</code> instance.  If
+     * <code>obj</code> is an instance of <code>CategoryProduct</code>, delegates to
+     * <code>equals(CategoryProduct)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -259,7 +259,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|CategoryGoods The current object, for fluid interface
+     * @return $this|CategoryProduct The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -335,7 +335,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      *
      * @return int
      */
-    public function getGoodsId()
+    public function getProductId()
     {
         return $this->goods_id;
     }
@@ -344,7 +344,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * Set the value of [category_id] column.
      *
      * @param int $v new value
-     * @return $this|\Propel\CategoryGoods The current object (for fluent API support)
+     * @return $this|\Propel\CategoryProduct The current object (for fluent API support)
      */
     public function setCategoryId($v)
     {
@@ -354,7 +354,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
 
         if ($this->category_id !== $v) {
             $this->category_id = $v;
-            $this->modifiedColumns[CategoryGoodsTableMap::COL_CATEGORY_ID] = true;
+            $this->modifiedColumns[CategoryProductTableMap::COL_CATEGORY_ID] = true;
         }
 
         if ($this->aCategory !== null && $this->aCategory->getId() !== $v) {
@@ -368,9 +368,9 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * Set the value of [goods_id] column.
      *
      * @param int $v new value
-     * @return $this|\Propel\CategoryGoods The current object (for fluent API support)
+     * @return $this|\Propel\CategoryProduct The current object (for fluent API support)
      */
-    public function setGoodsId($v)
+    public function setProductId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -378,15 +378,15 @@ abstract class CategoryGoods implements ActiveRecordInterface
 
         if ($this->goods_id !== $v) {
             $this->goods_id = $v;
-            $this->modifiedColumns[CategoryGoodsTableMap::COL_GOODS_ID] = true;
+            $this->modifiedColumns[CategoryProductTableMap::COL_GOODS_ID] = true;
         }
 
-        if ($this->aGoods !== null && $this->aGoods->getId() !== $v) {
-            $this->aGoods = null;
+        if ($this->aProduct !== null && $this->aProduct->getId() !== $v) {
+            $this->aProduct = null;
         }
 
         return $this;
-    } // setGoodsId()
+    } // setProductId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -424,10 +424,10 @@ abstract class CategoryGoods implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CategoryGoodsTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CategoryProductTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->category_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CategoryGoodsTableMap::translateFieldName('GoodsId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CategoryProductTableMap::translateFieldName('ProductId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->goods_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -437,10 +437,10 @@ abstract class CategoryGoods implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = CategoryGoodsTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = CategoryProductTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Propel\\CategoryGoods'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Propel\\CategoryProduct'), 0, $e);
         }
     }
 
@@ -462,8 +462,8 @@ abstract class CategoryGoods implements ActiveRecordInterface
         if ($this->aCategory !== null && $this->category_id !== $this->aCategory->getId()) {
             $this->aCategory = null;
         }
-        if ($this->aGoods !== null && $this->goods_id !== $this->aGoods->getId()) {
-            $this->aGoods = null;
+        if ($this->aProduct !== null && $this->goods_id !== $this->aProduct->getId()) {
+            $this->aProduct = null;
         }
     } // ensureConsistency
 
@@ -488,13 +488,13 @@ abstract class CategoryGoods implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(CategoryGoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(CategoryProductTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildCategoryGoodsQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildCategoryProductQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -505,7 +505,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aCategory = null;
-            $this->aGoods = null;
+            $this->aProduct = null;
         } // if (deep)
     }
 
@@ -515,8 +515,8 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see CategoryGoods::setDeleted()
-     * @see CategoryGoods::isDeleted()
+     * @see CategoryProduct::setDeleted()
+     * @see CategoryProduct::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -525,11 +525,11 @@ abstract class CategoryGoods implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CategoryGoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoryProductTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildCategoryGoodsQuery::create()
+            $deleteQuery = ChildCategoryProductQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -564,7 +564,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CategoryGoodsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoryProductTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -583,7 +583,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                CategoryGoodsTableMap::addInstanceToPool($this);
+                CategoryProductTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -621,11 +621,11 @@ abstract class CategoryGoods implements ActiveRecordInterface
                 $this->setCategory($this->aCategory);
             }
 
-            if ($this->aGoods !== null) {
-                if ($this->aGoods->isModified() || $this->aGoods->isNew()) {
-                    $affectedRows += $this->aGoods->save($con);
+            if ($this->aProduct !== null) {
+                if ($this->aProduct->isModified() || $this->aProduct->isNew()) {
+                    $affectedRows += $this->aProduct->save($con);
                 }
-                $this->setGoods($this->aGoods);
+                $this->setProduct($this->aProduct);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -661,10 +661,10 @@ abstract class CategoryGoods implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(CategoryGoodsTableMap::COL_CATEGORY_ID)) {
+        if ($this->isColumnModified(CategoryProductTableMap::COL_CATEGORY_ID)) {
             $modifiedColumns[':p' . $index++]  = 'category_id';
         }
-        if ($this->isColumnModified(CategoryGoodsTableMap::COL_GOODS_ID)) {
+        if ($this->isColumnModified(CategoryProductTableMap::COL_GOODS_ID)) {
             $modifiedColumns[':p' . $index++]  = 'goods_id';
         }
 
@@ -723,7 +723,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CategoryGoodsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = CategoryProductTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -743,7 +743,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
                 return $this->getCategoryId();
                 break;
             case 1:
-                return $this->getGoodsId();
+                return $this->getProductId();
                 break;
             default:
                 return null;
@@ -769,14 +769,14 @@ abstract class CategoryGoods implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['CategoryGoods'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['CategoryProduct'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['CategoryGoods'][$this->hashCode()] = true;
-        $keys = CategoryGoodsTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['CategoryProduct'][$this->hashCode()] = true;
+        $keys = CategoryProductTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getCategoryId(),
-            $keys[1] => $this->getGoodsId(),
+            $keys[1] => $this->getProductId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -799,7 +799,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
 
                 $result[$key] = $this->aCategory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->aGoods) {
+            if (null !== $this->aProduct) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
@@ -809,10 +809,10 @@ abstract class CategoryGoods implements ActiveRecordInterface
                         $key = 'goods';
                         break;
                     default:
-                        $key = 'Goods';
+                        $key = 'Product';
                 }
 
-                $result[$key] = $this->aGoods->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aProduct->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -828,11 +828,11 @@ abstract class CategoryGoods implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Propel\CategoryGoods
+     * @return $this|\Propel\CategoryProduct
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CategoryGoodsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = CategoryProductTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -843,7 +843,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Propel\CategoryGoods
+     * @return $this|\Propel\CategoryProduct
      */
     public function setByPosition($pos, $value)
     {
@@ -852,7 +852,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
                 $this->setCategoryId($value);
                 break;
             case 1:
-                $this->setGoodsId($value);
+                $this->setProductId($value);
                 break;
         } // switch()
 
@@ -878,13 +878,13 @@ abstract class CategoryGoods implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = CategoryGoodsTableMap::getFieldNames($keyType);
+        $keys = CategoryProductTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setCategoryId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setGoodsId($arr[$keys[1]]);
+            $this->setProductId($arr[$keys[1]]);
         }
     }
 
@@ -905,7 +905,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Propel\CategoryGoods The current object, for fluid interface
+     * @return $this|\Propel\CategoryProduct The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -925,13 +925,13 @@ abstract class CategoryGoods implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(CategoryGoodsTableMap::DATABASE_NAME);
+        $criteria = new Criteria(CategoryProductTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(CategoryGoodsTableMap::COL_CATEGORY_ID)) {
-            $criteria->add(CategoryGoodsTableMap::COL_CATEGORY_ID, $this->category_id);
+        if ($this->isColumnModified(CategoryProductTableMap::COL_CATEGORY_ID)) {
+            $criteria->add(CategoryProductTableMap::COL_CATEGORY_ID, $this->category_id);
         }
-        if ($this->isColumnModified(CategoryGoodsTableMap::COL_GOODS_ID)) {
-            $criteria->add(CategoryGoodsTableMap::COL_GOODS_ID, $this->goods_id);
+        if ($this->isColumnModified(CategoryProductTableMap::COL_GOODS_ID)) {
+            $criteria->add(CategoryProductTableMap::COL_GOODS_ID, $this->goods_id);
         }
 
         return $criteria;
@@ -949,9 +949,9 @@ abstract class CategoryGoods implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildCategoryGoodsQuery::create();
-        $criteria->add(CategoryGoodsTableMap::COL_CATEGORY_ID, $this->category_id);
-        $criteria->add(CategoryGoodsTableMap::COL_GOODS_ID, $this->goods_id);
+        $criteria = ChildCategoryProductQuery::create();
+        $criteria->add(CategoryProductTableMap::COL_CATEGORY_ID, $this->category_id);
+        $criteria->add(CategoryProductTableMap::COL_GOODS_ID, $this->goods_id);
 
         return $criteria;
     }
@@ -965,7 +965,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
     public function hashCode()
     {
         $validPk = null !== $this->getCategoryId() &&
-            null !== $this->getGoodsId();
+            null !== $this->getProductId();
 
         $validPrimaryKeyFKs = 2;
         $primaryKeyFKs = [];
@@ -978,7 +978,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
         }
 
         //relation category_goods_fk_aec07a to table goods
-        if ($this->aGoods && $hash = spl_object_hash($this->aGoods)) {
+        if ($this->aProduct && $hash = spl_object_hash($this->aProduct)) {
             $primaryKeyFKs[] = $hash;
         } else {
             $validPrimaryKeyFKs = false;
@@ -1002,7 +1002,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
     {
         $pks = array();
         $pks[0] = $this->getCategoryId();
-        $pks[1] = $this->getGoodsId();
+        $pks[1] = $this->getProductId();
 
         return $pks;
     }
@@ -1016,7 +1016,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
     public function setPrimaryKey($keys)
     {
         $this->setCategoryId($keys[0]);
-        $this->setGoodsId($keys[1]);
+        $this->setProductId($keys[1]);
     }
 
     /**
@@ -1025,7 +1025,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return (null === $this->getCategoryId()) && (null === $this->getGoodsId());
+        return (null === $this->getCategoryId()) && (null === $this->getProductId());
     }
 
     /**
@@ -1034,7 +1034,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Propel\CategoryGoods (or compatible) type.
+     * @param      object $copyObj An object of \Propel\CategoryProduct (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1042,7 +1042,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setCategoryId($this->getCategoryId());
-        $copyObj->setGoodsId($this->getGoodsId());
+        $copyObj->setProductId($this->getProductId());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1057,7 +1057,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Propel\CategoryGoods Clone of current object.
+     * @return \Propel\CategoryProduct Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1074,7 +1074,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      * Declares an association between this object and a ChildCategory object.
      *
      * @param  ChildCategory $v
-     * @return $this|\Propel\CategoryGoods The current object (for fluent API support)
+     * @return $this|\Propel\CategoryProduct The current object (for fluent API support)
      * @throws PropelException
      */
     public function setCategory(ChildCategory $v = null)
@@ -1090,7 +1090,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
         // Add binding for other direction of this n:n relationship.
         // If this object has already been added to the ChildCategory object, it will not be re-added.
         if ($v !== null) {
-            $v->addCategoryGoods($this);
+            $v->addCategoryProduct($this);
         }
 
 
@@ -1114,7 +1114,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aCategory->addCategoryGoodss($this);
+                $this->aCategory->addCategoryProducts($this);
              */
         }
 
@@ -1122,26 +1122,26 @@ abstract class CategoryGoods implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildGoods object.
+     * Declares an association between this object and a ChildProduct object.
      *
-     * @param  ChildGoods $v
-     * @return $this|\Propel\CategoryGoods The current object (for fluent API support)
+     * @param  ChildProduct $v
+     * @return $this|\Propel\CategoryProduct The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setGoods(ChildGoods $v = null)
+    public function setProduct(ChildProduct $v = null)
     {
         if ($v === null) {
-            $this->setGoodsId(NULL);
+            $this->setProductId(NULL);
         } else {
-            $this->setGoodsId($v->getId());
+            $this->setProductId($v->getId());
         }
 
-        $this->aGoods = $v;
+        $this->aProduct = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildGoods object, it will not be re-added.
+        // If this object has already been added to the ChildProduct object, it will not be re-added.
         if ($v !== null) {
-            $v->addCategoryGoods($this);
+            $v->addCategoryProduct($this);
         }
 
 
@@ -1150,26 +1150,26 @@ abstract class CategoryGoods implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildGoods object
+     * Get the associated ChildProduct object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildGoods The associated ChildGoods object.
+     * @return ChildProduct The associated ChildProduct object.
      * @throws PropelException
      */
-    public function getGoods(ConnectionInterface $con = null)
+    public function getProduct(ConnectionInterface $con = null)
     {
-        if ($this->aGoods === null && ($this->goods_id != 0)) {
-            $this->aGoods = ChildGoodsQuery::create()->findPk($this->goods_id, $con);
+        if ($this->aProduct === null && ($this->goods_id != 0)) {
+            $this->aProduct = ChildProductQuery::create()->findPk($this->goods_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aGoods->addCategoryGoodss($this);
+                $this->aProduct->addCategoryProducts($this);
              */
         }
 
-        return $this->aGoods;
+        return $this->aProduct;
     }
 
     /**
@@ -1180,10 +1180,10 @@ abstract class CategoryGoods implements ActiveRecordInterface
     public function clear()
     {
         if (null !== $this->aCategory) {
-            $this->aCategory->removeCategoryGoods($this);
+            $this->aCategory->removeCategoryProduct($this);
         }
-        if (null !== $this->aGoods) {
-            $this->aGoods->removeCategoryGoods($this);
+        if (null !== $this->aProduct) {
+            $this->aProduct->removeCategoryProduct($this);
         }
         $this->category_id = null;
         $this->goods_id = null;
@@ -1208,7 +1208,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
         } // if ($deep)
 
         $this->aCategory = null;
-        $this->aGoods = null;
+        $this->aProduct = null;
     }
 
     /**
@@ -1218,7 +1218,7 @@ abstract class CategoryGoods implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(CategoryGoodsTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(CategoryProductTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

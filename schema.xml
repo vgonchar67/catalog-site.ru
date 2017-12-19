@@ -11,21 +11,27 @@
         </behavior>
     </table>
  
-    <table name="goods" phpName="Goods">
+    <table name="product" phpName="Product">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" type="varchar" size="100" required="true"/>
         <column name="preview_text" type="longvarchar"/>
         <column name="detail_text" type="longvarchar"/>
+        <column name="active" type="integer" required="true"/>
+        <column name="quantity" type="integer"/>
+        <column name="order_empty_quantity" type="integer"/>
+        <behavior name="validate">
+            <parameter name="rule1" value="{column: name, validator: NotBlank, options: {message: Введите название товара}}" />
+        </behavior>
     </table>
 
-    <table name="category_goods" isCrossRef="true">
+    <table name="category_product" isCrossRef="true">
         <column name="category_id" type="integer" primaryKey="true"/>
-        <column name="goods_id" type="integer" primaryKey="true"/>
+        <column name="product_id" type="integer" primaryKey="true"/>
         <foreign-key foreignTable="category">
             <reference local="category_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="goods">
-            <reference local="goods_id" foreign="id"/>
+        <foreign-key foreignTable="product">
+            <reference local="product_id" foreign="id"/>
         </foreign-key>
     </table>
 </database>

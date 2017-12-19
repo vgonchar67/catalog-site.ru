@@ -16,15 +16,15 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'category_goods' table.
+ * Base class that represents a query for the 'category_product' table.
  *
  *
  *
  * @method     ChildCategoryProductQuery orderByCategoryId($order = Criteria::ASC) Order by the category_id column
- * @method     ChildCategoryProductQuery orderByProductId($order = Criteria::ASC) Order by the goods_id column
+ * @method     ChildCategoryProductQuery orderByProductId($order = Criteria::ASC) Order by the product_id column
  *
  * @method     ChildCategoryProductQuery groupByCategoryId() Group by the category_id column
- * @method     ChildCategoryProductQuery groupByProductId() Group by the goods_id column
+ * @method     ChildCategoryProductQuery groupByProductId() Group by the product_id column
  *
  * @method     ChildCategoryProductQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildCategoryProductQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -60,17 +60,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCategoryProduct findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCategoryProduct matching the query, or a new ChildCategoryProduct object populated from the query conditions when no match is found
  *
  * @method     ChildCategoryProduct findOneByCategoryId(int $category_id) Return the first ChildCategoryProduct filtered by the category_id column
- * @method     ChildCategoryProduct findOneByProductId(int $goods_id) Return the first ChildCategoryProduct filtered by the goods_id column *
+ * @method     ChildCategoryProduct findOneByProductId(int $product_id) Return the first ChildCategoryProduct filtered by the product_id column *
 
  * @method     ChildCategoryProduct requirePk($key, ConnectionInterface $con = null) Return the ChildCategoryProduct by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategoryProduct requireOne(ConnectionInterface $con = null) Return the first ChildCategoryProduct matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCategoryProduct requireOneByCategoryId(int $category_id) Return the first ChildCategoryProduct filtered by the category_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildCategoryProduct requireOneByProductId(int $goods_id) Return the first ChildCategoryProduct filtered by the goods_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategoryProduct requireOneByProductId(int $product_id) Return the first ChildCategoryProduct filtered by the product_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCategoryProduct[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCategoryProduct objects based on current ModelCriteria
  * @method     ChildCategoryProduct[]|ObjectCollection findByCategoryId(int $category_id) Return ChildCategoryProduct objects filtered by the category_id column
- * @method     ChildCategoryProduct[]|ObjectCollection findByProductId(int $goods_id) Return ChildCategoryProduct objects filtered by the goods_id column
+ * @method     ChildCategoryProduct[]|ObjectCollection findByProductId(int $product_id) Return ChildCategoryProduct objects filtered by the product_id column
  * @method     ChildCategoryProduct[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -123,7 +123,7 @@ abstract class CategoryProductQuery extends ModelCriteria
      * $obj = $c->findPk(array(12, 34), $con);
      * </code>
      *
-     * @param array[$category_id, $goods_id] $key Primary key to use for the query
+     * @param array[$category_id, $product_id] $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
      * @return ChildCategoryProduct|array|mixed the result, formatted by the current formatter
@@ -169,7 +169,7 @@ abstract class CategoryProductQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT category_id, goods_id FROM category_goods WHERE category_id = :p0 AND goods_id = :p1';
+        $sql = 'SELECT category_id, product_id FROM category_product WHERE category_id = :p0 AND product_id = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -244,7 +244,7 @@ abstract class CategoryProductQuery extends ModelCriteria
     public function filterByPrimaryKey($key)
     {
         $this->addUsingAlias(CategoryProductTableMap::COL_CATEGORY_ID, $key[0], Criteria::EQUAL);
-        $this->addUsingAlias(CategoryProductTableMap::COL_GOODS_ID, $key[1], Criteria::EQUAL);
+        $this->addUsingAlias(CategoryProductTableMap::COL_PRODUCT_ID, $key[1], Criteria::EQUAL);
 
         return $this;
     }
@@ -263,7 +263,7 @@ abstract class CategoryProductQuery extends ModelCriteria
         }
         foreach ($keys as $key) {
             $cton0 = $this->getNewCriterion(CategoryProductTableMap::COL_CATEGORY_ID, $key[0], Criteria::EQUAL);
-            $cton1 = $this->getNewCriterion(CategoryProductTableMap::COL_GOODS_ID, $key[1], Criteria::EQUAL);
+            $cton1 = $this->getNewCriterion(CategoryProductTableMap::COL_PRODUCT_ID, $key[1], Criteria::EQUAL);
             $cton0->addAnd($cton1);
             $this->addOr($cton0);
         }
@@ -315,18 +315,18 @@ abstract class CategoryProductQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the goods_id column
+     * Filter the query on the product_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByProductId(1234); // WHERE goods_id = 1234
-     * $query->filterByProductId(array(12, 34)); // WHERE goods_id IN (12, 34)
-     * $query->filterByProductId(array('min' => 12)); // WHERE goods_id > 12
+     * $query->filterByProductId(1234); // WHERE product_id = 1234
+     * $query->filterByProductId(array(12, 34)); // WHERE product_id IN (12, 34)
+     * $query->filterByProductId(array('min' => 12)); // WHERE product_id > 12
      * </code>
      *
      * @see       filterByProduct()
      *
-     * @param     mixed $goodsId The value to use as filter.
+     * @param     mixed $productId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -334,16 +334,16 @@ abstract class CategoryProductQuery extends ModelCriteria
      *
      * @return $this|ChildCategoryProductQuery The current query, for fluid interface
      */
-    public function filterByProductId($goodsId = null, $comparison = null)
+    public function filterByProductId($productId = null, $comparison = null)
     {
-        if (is_array($goodsId)) {
+        if (is_array($productId)) {
             $useMinMax = false;
-            if (isset($goodsId['min'])) {
-                $this->addUsingAlias(CategoryProductTableMap::COL_GOODS_ID, $goodsId['min'], Criteria::GREATER_EQUAL);
+            if (isset($productId['min'])) {
+                $this->addUsingAlias(CategoryProductTableMap::COL_PRODUCT_ID, $productId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($goodsId['max'])) {
-                $this->addUsingAlias(CategoryProductTableMap::COL_GOODS_ID, $goodsId['max'], Criteria::LESS_EQUAL);
+            if (isset($productId['max'])) {
+                $this->addUsingAlias(CategoryProductTableMap::COL_PRODUCT_ID, $productId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -354,7 +354,7 @@ abstract class CategoryProductQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(CategoryProductTableMap::COL_GOODS_ID, $goodsId, $comparison);
+        return $this->addUsingAlias(CategoryProductTableMap::COL_PRODUCT_ID, $productId, $comparison);
     }
 
     /**
@@ -437,25 +437,25 @@ abstract class CategoryProductQuery extends ModelCriteria
     /**
      * Filter the query by a related \Propel\Product object
      *
-     * @param \Propel\Product|ObjectCollection $goods The related object(s) to use as filter
+     * @param \Propel\Product|ObjectCollection $product The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
      * @return ChildCategoryProductQuery The current query, for fluid interface
      */
-    public function filterByProduct($goods, $comparison = null)
+    public function filterByProduct($product, $comparison = null)
     {
-        if ($goods instanceof \Propel\Product) {
+        if ($product instanceof \Propel\Product) {
             return $this
-                ->addUsingAlias(CategoryProductTableMap::COL_GOODS_ID, $goods->getId(), $comparison);
-        } elseif ($goods instanceof ObjectCollection) {
+                ->addUsingAlias(CategoryProductTableMap::COL_PRODUCT_ID, $product->getId(), $comparison);
+        } elseif ($product instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(CategoryProductTableMap::COL_GOODS_ID, $goods->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(CategoryProductTableMap::COL_PRODUCT_ID, $product->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByProduct() only accepts arguments of type \Propel\Product or Collection');
         }
@@ -522,7 +522,7 @@ abstract class CategoryProductQuery extends ModelCriteria
     {
         if ($categoryProduct) {
             $this->addCond('pruneCond0', $this->getAliasedColName(CategoryProductTableMap::COL_CATEGORY_ID), $categoryProduct->getCategoryId(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond1', $this->getAliasedColName(CategoryProductTableMap::COL_GOODS_ID), $categoryProduct->getProductId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond1', $this->getAliasedColName(CategoryProductTableMap::COL_PRODUCT_ID), $categoryProduct->getProductId(), Criteria::NOT_EQUAL);
             $this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
         }
 
@@ -530,7 +530,7 @@ abstract class CategoryProductQuery extends ModelCriteria
     }
 
     /**
-     * Deletes all rows from the category_goods table.
+     * Deletes all rows from the category_product table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).

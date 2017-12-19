@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'category_goods' table.
+ * This class defines the structure of the 'category_product' table.
  *
  *
  *
@@ -44,7 +44,7 @@ class CategoryProductTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'category_goods';
+    const TABLE_NAME = 'category_product';
 
     /**
      * The related Propel class for this table
@@ -74,12 +74,12 @@ class CategoryProductTableMap extends TableMap
     /**
      * the column name for the category_id field
      */
-    const COL_CATEGORY_ID = 'category_goods.category_id';
+    const COL_CATEGORY_ID = 'category_product.category_id';
 
     /**
-     * the column name for the goods_id field
+     * the column name for the product_id field
      */
-    const COL_GOODS_ID = 'category_goods.goods_id';
+    const COL_PRODUCT_ID = 'category_product.product_id';
 
     /**
      * The default string format for model objects of the related table
@@ -94,9 +94,9 @@ class CategoryProductTableMap extends TableMap
      */
     protected static $fieldNames = array (
         self::TYPE_PHPNAME       => array('CategoryId', 'ProductId', ),
-        self::TYPE_CAMELNAME     => array('categoryId', 'goodsId', ),
-        self::TYPE_COLNAME       => array(CategoryProductTableMap::COL_CATEGORY_ID, CategoryProductTableMap::COL_GOODS_ID, ),
-        self::TYPE_FIELDNAME     => array('category_id', 'goods_id', ),
+        self::TYPE_CAMELNAME     => array('categoryId', 'productId', ),
+        self::TYPE_COLNAME       => array(CategoryProductTableMap::COL_CATEGORY_ID, CategoryProductTableMap::COL_PRODUCT_ID, ),
+        self::TYPE_FIELDNAME     => array('category_id', 'product_id', ),
         self::TYPE_NUM           => array(0, 1, )
     );
 
@@ -108,9 +108,9 @@ class CategoryProductTableMap extends TableMap
      */
     protected static $fieldKeys = array (
         self::TYPE_PHPNAME       => array('CategoryId' => 0, 'ProductId' => 1, ),
-        self::TYPE_CAMELNAME     => array('categoryId' => 0, 'goodsId' => 1, ),
-        self::TYPE_COLNAME       => array(CategoryProductTableMap::COL_CATEGORY_ID => 0, CategoryProductTableMap::COL_GOODS_ID => 1, ),
-        self::TYPE_FIELDNAME     => array('category_id' => 0, 'goods_id' => 1, ),
+        self::TYPE_CAMELNAME     => array('categoryId' => 0, 'productId' => 1, ),
+        self::TYPE_COLNAME       => array(CategoryProductTableMap::COL_CATEGORY_ID => 0, CategoryProductTableMap::COL_PRODUCT_ID => 1, ),
+        self::TYPE_FIELDNAME     => array('category_id' => 0, 'product_id' => 1, ),
         self::TYPE_NUM           => array(0, 1, )
     );
 
@@ -124,7 +124,7 @@ class CategoryProductTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('category_goods');
+        $this->setName('category_product');
         $this->setPhpName('CategoryProduct');
         $this->setIdentifierQuoting(false);
         $this->setClassName('\\Propel\\CategoryProduct');
@@ -133,7 +133,7 @@ class CategoryProductTableMap extends TableMap
         $this->setIsCrossRef(true);
         // columns
         $this->addForeignPrimaryKey('category_id', 'CategoryId', 'INTEGER' , 'category', 'id', true, null, null);
-        $this->addForeignPrimaryKey('goods_id', 'ProductId', 'INTEGER' , 'goods', 'id', true, null, null);
+        $this->addForeignPrimaryKey('product_id', 'ProductId', 'INTEGER' , 'product', 'id', true, null, null);
     } // initialize()
 
     /**
@@ -151,7 +151,7 @@ class CategoryProductTableMap extends TableMap
         $this->addRelation('Product', '\\Propel\\Product', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
-    0 => ':goods_id',
+    0 => ':product_id',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -361,10 +361,10 @@ class CategoryProductTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(CategoryProductTableMap::COL_CATEGORY_ID);
-            $criteria->addSelectColumn(CategoryProductTableMap::COL_GOODS_ID);
+            $criteria->addSelectColumn(CategoryProductTableMap::COL_PRODUCT_ID);
         } else {
             $criteria->addSelectColumn($alias . '.category_id');
-            $criteria->addSelectColumn($alias . '.goods_id');
+            $criteria->addSelectColumn($alias . '.product_id');
         }
     }
 
@@ -424,7 +424,7 @@ class CategoryProductTableMap extends TableMap
             }
             foreach ($values as $value) {
                 $criterion = $criteria->getNewCriterion(CategoryProductTableMap::COL_CATEGORY_ID, $value[0]);
-                $criterion->addAnd($criteria->getNewCriterion(CategoryProductTableMap::COL_GOODS_ID, $value[1]));
+                $criterion->addAnd($criteria->getNewCriterion(CategoryProductTableMap::COL_PRODUCT_ID, $value[1]));
                 $criteria->addOr($criterion);
             }
         }
@@ -443,7 +443,7 @@ class CategoryProductTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the category_goods table.
+     * Deletes all rows from the category_product table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).

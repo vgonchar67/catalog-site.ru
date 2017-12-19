@@ -2,10 +2,10 @@
 
 namespace Propel;
 
-use Propel\Base\CategoryGoodsQuery as BaseCategoryGoodsQuery;
+use Propel\Base\CategoryProductQuery as BaseCategoryProductQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'category_goods' table.
+ * Skeleton subclass for performing query and update operations on the 'category_product' table.
  *
  *
  *
@@ -14,7 +14,7 @@ use Propel\Base\CategoryGoodsQuery as BaseCategoryGoodsQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class CategoryGoodsQuery extends BaseCategoryGoodsQuery
+class CategoryProductQuery extends BaseCategoryProductQuery
 {
 
 }

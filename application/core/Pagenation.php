@@ -53,7 +53,7 @@ class Pagenation {
 		for($i = $startPage; $i <= $endPage; $i++) {
 
 			$result['items'][] = [
-				'link' => ($i == 1)? URL::modify(array('page' => '')) : URL::modify(array('page' => $i)) ,
+				'link' => ($i == 1)? Uri::GetCurPageParam('', array('page')) : Uri::GetCurPageParam("page=$i", array('page')),
 				'number' => $i,
 				'active' => $i == $this->_currentPage
 			];
@@ -61,11 +61,11 @@ class Pagenation {
 			if($i == $this->_currentPage) {
 				if($i > 1) {
 					$result['prev']['disabled'] = false;
-					$result['prev']['link'] = ($i - 1 == 1)? URL::modify(array('page' => '')) : URL::modify(array('page' => $i - 1));
+					$result['prev']['link'] = ($i - 1 == 1)? Uri::GetCurPageParam('', array('page')) : Uri::GetCurPageParam('page='.($i-1), array('page'));
 				}
 				if($i < $this->_countPages) {
 					$result['next']['disabled'] = false;
-					$result['next']['link'] = URL::modify(array('page' => $i + 1));
+					$result['next']['link'] =  Uri::GetCurPageParam('page='.($i+1), array('page'));
 				}
 			}
 		}

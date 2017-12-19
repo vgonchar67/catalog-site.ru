@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Base class that represents a row from the 'goods' table.
+ * Base class that represents a row from the 'product' table.
  *
  *
  *
@@ -110,6 +110,20 @@ abstract class Product implements ActiveRecordInterface
      * @var        int
      */
     protected $active;
+
+    /**
+     * The value for the quantity field.
+     *
+     * @var        int
+     */
+    protected $quantity;
+
+    /**
+     * The value for the order_empty_quantity field.
+     *
+     * @var        int
+     */
+    protected $order_empty_quantity;
 
     /**
      * @var        ObjectCollection|ChildCategoryProduct[] Collection to store aggregation of ChildCategoryProduct objects.
@@ -440,6 +454,26 @@ abstract class Product implements ActiveRecordInterface
     }
 
     /**
+     * Get the [quantity] column value.
+     *
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Get the [order_empty_quantity] column value.
+     *
+     * @return int
+     */
+    public function getOrderEmptyQuantity()
+    {
+        return $this->order_empty_quantity;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -540,6 +574,46 @@ abstract class Product implements ActiveRecordInterface
     } // setActive()
 
     /**
+     * Set the value of [quantity] column.
+     *
+     * @param int $v new value
+     * @return $this|\Propel\Product The current object (for fluent API support)
+     */
+    public function setQuantity($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->quantity !== $v) {
+            $this->quantity = $v;
+            $this->modifiedColumns[ProductTableMap::COL_QUANTITY] = true;
+        }
+
+        return $this;
+    } // setQuantity()
+
+    /**
+     * Set the value of [order_empty_quantity] column.
+     *
+     * @param int $v new value
+     * @return $this|\Propel\Product The current object (for fluent API support)
+     */
+    public function setOrderEmptyQuantity($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->order_empty_quantity !== $v) {
+            $this->order_empty_quantity = $v;
+            $this->modifiedColumns[ProductTableMap::COL_ORDER_EMPTY_QUANTITY] = true;
+        }
+
+        return $this;
+    } // setOrderEmptyQuantity()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -589,6 +663,12 @@ abstract class Product implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ProductTableMap::translateFieldName('Active', TableMap::TYPE_PHPNAME, $indexType)];
             $this->active = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ProductTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->quantity = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ProductTableMap::translateFieldName('OrderEmptyQuantity', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->order_empty_quantity = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -597,7 +677,7 @@ abstract class Product implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = ProductTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = ProductTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Propel\\Product'), 0, $e);
@@ -862,9 +942,15 @@ abstract class Product implements ActiveRecordInterface
         if ($this->isColumnModified(ProductTableMap::COL_ACTIVE)) {
             $modifiedColumns[':p' . $index++]  = 'active';
         }
+        if ($this->isColumnModified(ProductTableMap::COL_QUANTITY)) {
+            $modifiedColumns[':p' . $index++]  = 'quantity';
+        }
+        if ($this->isColumnModified(ProductTableMap::COL_ORDER_EMPTY_QUANTITY)) {
+            $modifiedColumns[':p' . $index++]  = 'order_empty_quantity';
+        }
 
         $sql = sprintf(
-            'INSERT INTO goods (%s) VALUES (%s)',
+            'INSERT INTO product (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -887,6 +973,12 @@ abstract class Product implements ActiveRecordInterface
                         break;
                     case 'active':
                         $stmt->bindValue($identifier, $this->active, PDO::PARAM_INT);
+                        break;
+                    case 'quantity':
+                        $stmt->bindValue($identifier, $this->quantity, PDO::PARAM_INT);
+                        break;
+                    case 'order_empty_quantity':
+                        $stmt->bindValue($identifier, $this->order_empty_quantity, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -965,6 +1057,12 @@ abstract class Product implements ActiveRecordInterface
             case 4:
                 return $this->getActive();
                 break;
+            case 5:
+                return $this->getQuantity();
+                break;
+            case 6:
+                return $this->getOrderEmptyQuantity();
+                break;
             default:
                 return null;
                 break;
@@ -1000,6 +1098,8 @@ abstract class Product implements ActiveRecordInterface
             $keys[2] => $this->getPreviewText(),
             $keys[3] => $this->getDetailText(),
             $keys[4] => $this->getActive(),
+            $keys[5] => $this->getQuantity(),
+            $keys[6] => $this->getOrderEmptyQuantity(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1014,7 +1114,7 @@ abstract class Product implements ActiveRecordInterface
                         $key = 'categoryProducts';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'category_goodss';
+                        $key = 'category_products';
                         break;
                     default:
                         $key = 'CategoryProducts';
@@ -1071,6 +1171,12 @@ abstract class Product implements ActiveRecordInterface
             case 4:
                 $this->setActive($value);
                 break;
+            case 5:
+                $this->setQuantity($value);
+                break;
+            case 6:
+                $this->setOrderEmptyQuantity($value);
+                break;
         } // switch()
 
         return $this;
@@ -1111,6 +1217,12 @@ abstract class Product implements ActiveRecordInterface
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setActive($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setQuantity($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setOrderEmptyQuantity($arr[$keys[6]]);
         }
     }
 
@@ -1167,6 +1279,12 @@ abstract class Product implements ActiveRecordInterface
         }
         if ($this->isColumnModified(ProductTableMap::COL_ACTIVE)) {
             $criteria->add(ProductTableMap::COL_ACTIVE, $this->active);
+        }
+        if ($this->isColumnModified(ProductTableMap::COL_QUANTITY)) {
+            $criteria->add(ProductTableMap::COL_QUANTITY, $this->quantity);
+        }
+        if ($this->isColumnModified(ProductTableMap::COL_ORDER_EMPTY_QUANTITY)) {
+            $criteria->add(ProductTableMap::COL_ORDER_EMPTY_QUANTITY, $this->order_empty_quantity);
         }
 
         return $criteria;
@@ -1258,6 +1376,8 @@ abstract class Product implements ActiveRecordInterface
         $copyObj->setPreviewText($this->getPreviewText());
         $copyObj->setDetailText($this->getDetailText());
         $copyObj->setActive($this->getActive());
+        $copyObj->setQuantity($this->getQuantity());
+        $copyObj->setOrderEmptyQuantity($this->getOrderEmptyQuantity());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1614,7 +1734,7 @@ abstract class Product implements ActiveRecordInterface
 
     /**
      * Gets a collection of ChildCategory objects related by a many-to-many relationship
-     * to the current object by way of the category_goods cross-reference table.
+     * to the current object by way of the category_product cross-reference table.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -1664,7 +1784,7 @@ abstract class Product implements ActiveRecordInterface
 
     /**
      * Sets a collection of Category objects related by a many-to-many relationship
-     * to the current object by way of the category_goods cross-reference table.
+     * to the current object by way of the category_product cross-reference table.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
@@ -1697,7 +1817,7 @@ abstract class Product implements ActiveRecordInterface
 
     /**
      * Gets the number of Category objects related by a many-to-many relationship
-     * to the current object by way of the category_goods cross-reference table.
+     * to the current object by way of the category_product cross-reference table.
      *
      * @param      Criteria $criteria Optional query object to filter the query
      * @param      boolean $distinct Set to true to force count distinct
@@ -1733,7 +1853,7 @@ abstract class Product implements ActiveRecordInterface
 
     /**
      * Associate a ChildCategory to this object
-     * through the category_goods cross reference table.
+     * through the category_product cross reference table.
      *
      * @param ChildCategory $category
      * @return ChildProduct The current object (for fluent API support)
@@ -1780,7 +1900,7 @@ abstract class Product implements ActiveRecordInterface
 
     /**
      * Remove category of this object
-     * through the category_goods cross reference table.
+     * through the category_product cross reference table.
      *
      * @param ChildCategory $category
      * @return ChildProduct The current object (for fluent API support)
@@ -1825,6 +1945,8 @@ abstract class Product implements ActiveRecordInterface
         $this->preview_text = null;
         $this->detail_text = null;
         $this->active = null;
+        $this->quantity = null;
+        $this->order_empty_quantity = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

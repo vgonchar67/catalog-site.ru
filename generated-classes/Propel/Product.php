@@ -2,11 +2,11 @@
 
 namespace Propel;
 
-use Propel\Base\Category as BaseCategory;
+use Propel\Base\Product as BaseProduct;
 use Propel\Runtime\Connection\ConnectionInterface;
 
 /**
- * Skeleton subclass for representing a row from the 'category' table.
+ * Skeleton subclass for representing a row from the 'product' table.
  *
  *
  *
@@ -15,15 +15,15 @@ use Propel\Runtime\Connection\ConnectionInterface;
  * long as it does not already exist in the output directory.
  *
  */
-class Category extends BaseCategory
+class Product extends BaseProduct
 {
     public function preSave(ConnectionInterface $con = null) {
 		return $this->validate();
 	}
 
 	public function getErrors() {
-		$errors = array();
-		if(!method_exists($this, 'getValidationFailures')) {
+        $errors = array();
+        if(!method_exists($this, 'getValidationFailures')) {
             return $errors;
         }
         $failures = $this->getValidationFailures();
@@ -37,5 +37,4 @@ class Category extends BaseCategory
 		}
 		return $errors;
 	}
-
 }
