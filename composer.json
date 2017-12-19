@@ -9,7 +9,7 @@
     ],
 	"autoload": {
 		"psr-4": {
-            "app\\": "application",
+            "App\\": "application",
             "Propel\\": "generated-classes/Propel"
 		}
     },

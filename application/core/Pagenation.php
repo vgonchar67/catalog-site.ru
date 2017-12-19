@@ -1,5 +1,7 @@
 <?php 
-namespace app\core;
+namespace App\core;
+
+use App\Core\URL;
 
 class Pagenation {
 
@@ -22,7 +24,7 @@ class Pagenation {
 	function getHtml() {
 		$view = new View;
 		$view->set(['pages' => $this->getPagesArray()]);
-		return $view->parse('/pagenation');
+		return $view->parse('pagenation');
 	}
 
 	function getPagesArray() {
@@ -51,7 +53,7 @@ class Pagenation {
 		for($i = $startPage; $i <= $endPage; $i++) {
 
 			$result['items'][] = [
-				'link' => ($i == 1)? $this->_link : $this->_link.'?page=' . $i,
+				'link' => ($i == 1)? URL::modify(array('page' => '')) : URL::modify(array('page' => $i)) ,
 				'number' => $i,
 				'active' => $i == $this->_currentPage
 			];
@@ -59,11 +61,11 @@ class Pagenation {
 			if($i == $this->_currentPage) {
 				if($i > 1) {
 					$result['prev']['disabled'] = false;
-					$result['prev']['link'] = ($i - 1 == 1)? $this->_link : $this->_link.'?page=' . ($i - 1);
+					$result['prev']['link'] = ($i - 1 == 1)? URL::modify(array('page' => '')) : URL::modify(array('page' => $i - 1));
 				}
 				if($i < $this->_countPages) {
 					$result['next']['disabled'] = false;
-					$result['next']['link'] = $this->_link.'?page=' . ($i + 1);
+					$result['next']['link'] = URL::modify(array('page' => $i + 1));
 				}
 			}
 		}

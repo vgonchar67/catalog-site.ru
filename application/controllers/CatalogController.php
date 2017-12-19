@@ -1,10 +1,10 @@
 <?php
-namespace app\controllers;
+namespace App\controllers;
 
-use app\core\Controller;
-use app\models\Category;
-use app\core\Pagenation;
-use app\exceptions\CoreException;
+use App\core\Controller;
+use App\models\Category;
+use App\core\Pagenation;
+use App\exceptions\CoreException;
 
 class CatalogController  extends Controller {
 

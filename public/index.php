@@ -13,5 +13,5 @@ session_start();
 
 $config = require '../application/config.php';
 
-$application = new \app\core\Application($config);
+$application = new \App\core\Application($config);
 $application->run();

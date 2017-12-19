@@ -4,37 +4,28 @@ namespace App\models;
 use App\core\Validator;
 use App\core\DB;
 use App\core\ErrorHandler;
-use App\core\HtmLawed;
 
-class Comment {
+class Category {
 
-	const STATUS_MODERATION = 0;
 	const UNKNOWN_ERROR = 'Неизвестная ошибка';
-	static $fields = ['id', 'user_name', 'homepage', 'status', 'email'];
+	const TABLE_NAME = 'category';
+	static $fields = ['id', 'name', 'preview_text', 'detail_text', 'active'];
 
 	private $_rules = [
-		'user_name' => [
+		'name' => [
 			'.' => 'Введите имя',
 			'.{3,}' => 'Минимум 3 символа'
-		],
-		'email' => [
-			'.' => 'Введите E-mail',
-			Validator::PREG_EMAIL => 'Некорректный Email'
-		],
-		'text' => [
-			'.' => 'Введите текст сообщения',
-			'.{5,}' => 'Минимум 5 символа'
 		]
 	];
 
+
 	/**
-	 * Добавляет комментарий
+	 * Добавляет категорию
 	 * 
 	 * @param array $values - комментарий
 	 * @return boolean
 	 */
 	public function add($values, ErrorHandler $errorHandler) {
-		$values['text'] = HtmLawed::purify($values['text']);
 
 		$validator = new Validator($errorHandler);
 		$validator->check($values, $this->_rules);
@@ -43,18 +34,17 @@ class Comment {
 			return false;
 		}
 		
+
 		$db = DB::getInstance();
-		$query = 'INSERT INTO `vg_comments`(`text`, `status`, `user_name`, `homepage`, `email`) VALUES (?, ?, ?, ?, ?);';
+		$query = 'INSERT INTO `category`(`name`, `active`) VALUES (?, ?);';
 		
 		$sth = $db->prepare($query);
 		
 		$result = $sth->execute([
-			$values['text'],
-			self::STATUS_MODERATION,
-			$values['user_name'],
-			$values['homepage'],
-			$values['email'],
+			$values['name'],
+			(int)$values['active'],
 		]);
+
 		
 		if (!$result) {
 			$errorHandler->addError('common', self::UNKNOWN_ERROR);
@@ -65,8 +55,6 @@ class Comment {
 	
 	public function update($id, $values, ErrorHandler $errorHandler) {
 		
-		$values['text'] = HtmLawed::purify($values['text']);
-
 		$validator = new Validator($errorHandler);
 		
 		$validator->check($values, $this->_rules);
@@ -76,15 +64,12 @@ class Comment {
 		}
 		
 		$db = DB::getInstance();
-		$query = 'UPDATE `vg_comments` SET `text`= ?, `status` = ?, `user_name`= ? ,`homepage`= ?,`email`= ? WHERE `id`= ? ;';		
+		$query = 'UPDATE `category` SET `name`= ?, `active` = ? WHERE `id`= ? ;';		
 		$sth = $db->prepare($query);
 		
 		$result = $sth->execute([
-			$values['text'],
-			self::STATUS_MODERATION,
-			$values['user_name'],
-			$values['homepage'],
-			$values['email'],
+			$values['name'],
+			(int)$values['active'],
 			$id
 		]);
 		
@@ -104,27 +89,36 @@ class Comment {
 	
 	
 
-	static function getList($currentPage = 1, $limit = 2) {
+	static function getList($currentPage = 1, $limit = 2, array $filter = array()) {
 
 		$currentPage = (int)$currentPage < 1 ? 1 : (int)$currentPage;
-
+		
 		$db = DB::getInstance();
 		$offset = ($currentPage - 1) * $limit;
-
-		$query = 'SELECT `id`, `text`, `user_name`, `homepage`, `email` FROM `vg_comments` LIMIT ' . $limit . ' OFFSET ' . $offset;
+		$where = '';
+		foreach ($filter as $k => $v) {
+			if(in_array($k, self::$fields)) {
+				$where .=  $k . ' = ' . $db->quote($v) . ',';
+			}
+		}
+		if(!empty($where)) {
+			$where = "WHERE " . substr($where,0,-1);
+		}
+	
+		$query = "SELECT `id`, `name` ,`preview_text`, `detail_text`, `active` FROM `".self::TABLE_NAME."` $where LIMIT $limit OFFSET $offset";
 		return $db->query($query, \PDO::FETCH_ASSOC)->fetchAll();
 
 	}
 
 	static function getCount() {
 		$db = DB::getInstance();
-		$query = 'SELECT count(1) FROM vg_comments';
+		$query = 'SELECT count(1) FROM category';
 		return $db->query($query)->fetchColumn();
 	}
 	
 	static function getById($id) {
 		$db = DB::getInstance();
-		$query = 'SELECT `id`, `text`, `user_name`, `homepage`, `email` FROM `vg_comments` WHERE `id` = ?';
+		$query = 'SELECT `id`, `name`, `preview_text`, `detail_text`, `active` FROM `category` WHERE `id` = ?';
 		$sth = $db->prepare($query);
 		$sth->execute([$id]);
 		return $sth->fetch(\PDO::FETCH_ASSOC);
@@ -144,7 +138,7 @@ class Comment {
 			break;
 		}
 		
-		$query = "SELECT COUNT(1)+1 FROM `vg_comments` WHERE `$sortBy` $sign (SELECT `$sortBy` FROM `vg_comments` WHERE id = ?);";
+		$query = "SELECT COUNT(1)+1 FROM `category` WHERE `$sortBy` $sign (SELECT `$sortBy` FROM `category` WHERE id = ?);";
 		
 		$sth = $db->prepare($query);
 		$sth->execute([$id]);

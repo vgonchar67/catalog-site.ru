@@ -1,7 +1,7 @@
 <?php
-namespace app\core;
+namespace App\core;
 
-use app\core\ErrorHandler;
+use App\core\ErrorHandler;
 
 class Model {
 	public $application;

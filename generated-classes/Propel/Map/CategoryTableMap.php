@@ -158,7 +158,28 @@ class CategoryTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('CategoryGoods', '\\Propel\\CategoryGoods', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':category_id',
+    1 => ':id',
+  ),
+), null, null, 'CategoryGoodss', false);
+        $this->addRelation('Goods', '\\Propel\\Goods', RelationMap::MANY_TO_MANY, array(), null, null, 'Goodss');
     } // buildRelations()
+
+    /**
+     *
+     * Gets the list of behaviors registered for this table
+     *
+     * @return array Associative array (name => parameters) of behaviors
+     */
+    public function getBehaviors()
+    {
+        return array(
+            'validate' => array('rule1' => array ('column' => 'name','validator' => 'NotBlank','options' => array ('message' => 'Введите название категории',),), ),
+        );
+    } // getBehaviors()
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.

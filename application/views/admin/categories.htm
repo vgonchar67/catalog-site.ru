@@ -28,14 +28,15 @@
 		<tbody> 
 			{% for item in categories.items %}
 				<tr> 
-					<th scope="row">{{ item.id }}</th> 
-					<td>{{ item.name }}</td>
-					<td>{{  item.active ? 'Да' : 'Нет' }}</td> 
-					<th><a href="/admin/categories/edit/{{ item.id }}" class="btn btn-primary">Редактировать</a></th> 
-					<th><a href="/admin/categories/delete/{{ item.id }}" class="btn">Удалить</a></th> 
+					<th scope="row">{{ item.Id }}</th> 
+					<td>{{ item.Name }}</td>
+					<td>{{  item.Active ? 'Да' : 'Нет' }}</td> 
+					<th><a href="/admin/categories/edit/{{ item.Id }}" class="btn btn-primary">Редактировать</a></th> 
+					<th><a href="/admin/categories/delete/{{ item.Id }}" class="btn">Удалить</a></th> 
 				</tr>
 			{% endfor %}
 			
 		</tbody> 
 	</table>
+	{{ categories.pagenationHTML|raw }}
 {% endblock %}

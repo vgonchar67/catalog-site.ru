@@ -152,6 +152,14 @@ class GoodsTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('CategoryGoods', '\\Propel\\CategoryGoods', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':goods_id',
+    1 => ':id',
+  ),
+), null, null, 'CategoryGoodss', false);
+        $this->addRelation('Category', '\\Propel\\Category', RelationMap::MANY_TO_MANY, array(), null, null, 'Categories');
     } // buildRelations()
 
     /**

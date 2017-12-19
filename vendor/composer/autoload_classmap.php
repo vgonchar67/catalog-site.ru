@@ -6,24 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Base\\Category' => $baseDir . '/generated-classes/Base/Category.php',
-    'Base\\CategoryQuery' => $baseDir . '/generated-classes/Base/CategoryQuery.php',
-    'Base\\Goods' => $baseDir . '/generated-classes/Base/Goods.php',
-    'Base\\GoodsQuery' => $baseDir . '/generated-classes/Base/GoodsQuery.php',
-    'Catalog\\Base\\Category' => $baseDir . '/generated-classes/Catalog/Base/Category.php',
-    'Catalog\\Base\\CategoryQuery' => $baseDir . '/generated-classes/Catalog/Base/CategoryQuery.php',
-    'Catalog\\Base\\Goods' => $baseDir . '/generated-classes/Catalog/Base/Goods.php',
-    'Catalog\\Base\\GoodsQuery' => $baseDir . '/generated-classes/Catalog/Base/GoodsQuery.php',
-    'Catalog\\Category' => $baseDir . '/generated-classes/Catalog/Category.php',
-    'Catalog\\CategoryQuery' => $baseDir . '/generated-classes/Catalog/CategoryQuery.php',
-    'Catalog\\Goods' => $baseDir . '/generated-classes/Catalog/Goods.php',
-    'Catalog\\GoodsQuery' => $baseDir . '/generated-classes/Catalog/GoodsQuery.php',
-    'Catalog\\Map\\CategoryTableMap' => $baseDir . '/generated-classes/Catalog/Map/CategoryTableMap.php',
-    'Catalog\\Map\\GoodsTableMap' => $baseDir . '/generated-classes/Catalog/Map/GoodsTableMap.php',
-    'Category' => $baseDir . '/generated-classes/Category.php',
-    'CategoryQuery' => $baseDir . '/generated-classes/CategoryQuery.php',
-    'Goods' => $baseDir . '/generated-classes/Goods.php',
-    'GoodsQuery' => $baseDir . '/generated-classes/GoodsQuery.php',
-    'Map\\CategoryTableMap' => $baseDir . '/generated-classes/Map/CategoryTableMap.php',
-    'Map\\GoodsTableMap' => $baseDir . '/generated-classes/Map/GoodsTableMap.php',
 );

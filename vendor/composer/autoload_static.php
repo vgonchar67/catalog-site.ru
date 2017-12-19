@@ -11,10 +11,6 @@ class ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75
     );
 
     public static $prefixLengthsPsr4 = array (
-        'a' => 
-        array (
-            'app\\' => 4,
-        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -34,14 +30,15 @@ class ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Propel\\' => 7,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'app\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/application',
-        ),
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
@@ -86,6 +83,14 @@ class ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'Propel\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/generated-classes/Propel',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/application',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -105,36 +110,12 @@ class ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75
         ),
     );
 
-    public static $classMap = array (
-        'Base\\Category' => __DIR__ . '/../..' . '/generated-classes/Base/Category.php',
-        'Base\\CategoryQuery' => __DIR__ . '/../..' . '/generated-classes/Base/CategoryQuery.php',
-        'Base\\Goods' => __DIR__ . '/../..' . '/generated-classes/Base/Goods.php',
-        'Base\\GoodsQuery' => __DIR__ . '/../..' . '/generated-classes/Base/GoodsQuery.php',
-        'Catalog\\Base\\Category' => __DIR__ . '/../..' . '/generated-classes/Catalog/Base/Category.php',
-        'Catalog\\Base\\CategoryQuery' => __DIR__ . '/../..' . '/generated-classes/Catalog/Base/CategoryQuery.php',
-        'Catalog\\Base\\Goods' => __DIR__ . '/../..' . '/generated-classes/Catalog/Base/Goods.php',
-        'Catalog\\Base\\GoodsQuery' => __DIR__ . '/../..' . '/generated-classes/Catalog/Base/GoodsQuery.php',
-        'Catalog\\Category' => __DIR__ . '/../..' . '/generated-classes/Catalog/Category.php',
-        'Catalog\\CategoryQuery' => __DIR__ . '/../..' . '/generated-classes/Catalog/CategoryQuery.php',
-        'Catalog\\Goods' => __DIR__ . '/../..' . '/generated-classes/Catalog/Goods.php',
-        'Catalog\\GoodsQuery' => __DIR__ . '/../..' . '/generated-classes/Catalog/GoodsQuery.php',
-        'Catalog\\Map\\CategoryTableMap' => __DIR__ . '/../..' . '/generated-classes/Catalog/Map/CategoryTableMap.php',
-        'Catalog\\Map\\GoodsTableMap' => __DIR__ . '/../..' . '/generated-classes/Catalog/Map/GoodsTableMap.php',
-        'Category' => __DIR__ . '/../..' . '/generated-classes/Category.php',
-        'CategoryQuery' => __DIR__ . '/../..' . '/generated-classes/CategoryQuery.php',
-        'Goods' => __DIR__ . '/../..' . '/generated-classes/Goods.php',
-        'GoodsQuery' => __DIR__ . '/../..' . '/generated-classes/GoodsQuery.php',
-        'Map\\CategoryTableMap' => __DIR__ . '/../..' . '/generated-classes/Map/CategoryTableMap.php',
-        'Map\\GoodsTableMap' => __DIR__ . '/../..' . '/generated-classes/Map/GoodsTableMap.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInite113f906dbc052a4ae2b40ea1a7a4a75::$classMap;
 
         }, null, ClassLoader::class);
     }

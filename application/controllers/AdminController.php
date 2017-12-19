@@ -1,68 +1,58 @@
 <?php
-namespace app\controllers;
+namespace App\controllers;
 
-use app\core\Controller;
-use app\models\Category;
-use app\core\Pagenation;
+use App\core\Controller;
+use Propel\Category;
+use Propel\CategoryQuery;
+use App\core\Pagenation;
+use App\Exceptions\CoreException;
 
 class adminController  extends Controller {
 
-	const COUNT_ON_PAGE = 20;
+	const COUNT_ON_PAGE = 5;
 
 	function indexAction () {
 
-		/*$count = Comment::getCount();
-		$pagenation = new Pagenation($count, self::COUNT_ON_PAGE, $this->request->get['page']);
-
-		$this->view->set(['comments' => [
-			'count'=> $count,
-			'items' => Comment::getList($pagenation->getCurrentPage(), self::COUNT_ON_PAGE),
-			'pagenationHTML' =>  $pagenation->getHtml()
-		]]);*/
 	}
 
 	function categoriesAction () {
 
-		$count = Category::getCount();
+		$count = CategoryQuery::create()->count();
 		$pagenation = new Pagenation($count, self::COUNT_ON_PAGE, $this->request->get['page']);
-
+		$categories = CategoryQuery::create()
+			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE)
+			->toArray();
+		
 		$this->view->set(['categories' => [
 			'count'=> $count,
-			'items' => Category::getList($pagenation->getCurrentPage(), self::COUNT_ON_PAGE),
-			//'pagenationHTML' =>  $pagenation->getHtml()
+			'items' => $categories,
+			'pagenationHTML' =>  $pagenation->getHtml()
 		]]);
 	}
 
 	function editCategoryAction ($id) {
-		
-		$id = (int)$id;
-		$values = array();
-		if(!empty($_POST)) {
-			
-			$category = new Category();
-			if(!empty($id)) {
-				if($category->update($id, $_POST, $this->errorHandler)) {
-					$this->response->redirect('/admin/categories?page=' . $category->getPageById($id, self::COUNT_ON_PAGE));
-				}
-				$values = $_POST;
-			} else {
-				
-				$id = $category->add($_POST, $this->errorHandler);
-				
-				if(!empty($id)) {
-					$this->response->redirect('/admin/categories?page=' . $category->getPageById($id, self::COUNT_ON_PAGE));
-				} 
-			}
-		} else {
-			if(!empty($id)) {
-				$values = Category::getById($id);
-			}
+
+		$category = $id ? CategoryQuery::create()->findPK($id) : new Category();
+
+		if(is_null($category)) {
+			throw new CoreException;
 		}
 
+		if($this->request->post) {
+
+			$category->setName(trim($this->request->post['Name']));
+			$category->setActive((int)$this->request->post['Active']);
+			$category->setPreviewText($this->request->post['PreviewText']);
+			$category->setDetailText($this->request->post['DetailText']);
+			
+			if($category->save()) {
+				$this->response->redirect('/admin/categories');
+			}
+		}
+	
 		$this->view->set(['category' => [
-			'errors' => $this->errorHandler->getErrors(),
-			'values' => $values
-			//'pagenationHTML' =>  $pagenation->getHtml()
+			'errors' => $category->getErrors(),
+			'values' => $category->toArray()
 		]]);
 	}
 

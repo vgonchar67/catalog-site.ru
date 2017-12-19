@@ -1,7 +1,7 @@
 <?php
-namespace app\core;
+namespace App\core;
 
-use app\exceptions\CoreException;
+use App\exceptions\CoreException;
 class Application {
 	
 	public function __construct($config) {
@@ -26,7 +26,7 @@ class Application {
 	}
 	
 	protected function loadController() {
-		$controllerClassName = 'app\\controllers\\'. $this->router->getControllerName() . 'Controller';
+		$controllerClassName = 'App\\controllers\\'. $this->router->getControllerName() . 'Controller';
 		if(!class_exists($controllerClassName)) {
 			throw new CoreException;
 		}

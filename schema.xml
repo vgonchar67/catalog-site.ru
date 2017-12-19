@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="catalog-site" defaultIdMethod="native" namespace="Propel">
-    <table name="category" phpName="Category"> <!--  таблица книг  -->
-        <!--  описываем поля таблицы -->
+    <table name="category" phpName="Category">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" type="varchar" size="255" required="true" />
         <column name="preview_text" type="longvarchar"/>
         <column name="detail_text" type="longvarchar"/>
         <column name="active" type="integer" required="true"/>
-
-        <!--  описываем внешний ключ  
-        <foreign-key foreignTable="publisher" phpName="Publisher" refPhpName="Book">
-            <reference local="publisher_id" foreign="id"/>
-        </foreign-key>
-        <foreign-key foreignTable="author">
-            <reference local="author_id" foreign="id"/>
-        </foreign-key>-->
+        <behavior name="validate">
+            <parameter name="rule1" value="{column: name, validator: NotBlank, options: {message: Введите название категории}}" />
+        </behavior>
     </table>
  
-    <table name="goods" phpName="Goods"> <!--  таблица авторов  -->
+    <table name="goods" phpName="Goods">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" type="varchar" size="100" required="true"/>
         <column name="preview_text" type="longvarchar"/>
         <column name="detail_text" type="longvarchar"/>
+    </table>
+
+    <table name="category_goods" isCrossRef="true">
+        <column name="category_id" type="integer" primaryKey="true"/>
+        <column name="goods_id" type="integer" primaryKey="true"/>
+        <foreign-key foreignTable="category">
+            <reference local="category_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="goods">
+            <reference local="goods_id" foreign="id"/>
+        </foreign-key>
     </table>
 </database>

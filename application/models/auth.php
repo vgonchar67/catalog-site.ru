@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models;
-use app\core\Validator;
-use app\core\ErrorHandler;
-use app\core\DB;
+namespace App\models;
+use App\core\Validator;
+use App\core\ErrorHandler;
+use App\core\DB;
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

@@ -1,7 +1,7 @@
 <?php
-namespace app\core;
+namespace App\core;
 
-use app\exceptions\CoreException;
+use App\exceptions\CoreException;
 
 class Controller {
 	public $application;

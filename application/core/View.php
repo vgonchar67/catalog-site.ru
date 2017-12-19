@@ -1,7 +1,7 @@
 <?php
-namespace app\core;
+namespace App\core;
 
-use \app\exceptions\CoreException;
+use \App\exceptions\CoreException;
 
 class View {
 	
@@ -24,13 +24,8 @@ class View {
 	public function __construct() {
 		$this->viewsRoot = $_SERVER["DOCUMENT_ROOT"] . '/application/views';
 		$this->loader = new \Twig_Loader_Filesystem($this->viewsRoot . '/');
-		$this->twig = new \Twig_Environment($this->loader, array(
-			//'cache' => $this->viewsRoot . '/cache/',
-		));
-
-		
+		$this->twig = new \Twig_Environment($this->loader);
 	}
-	
 	
 	function set(array $arr) {
 		foreach ($arr as $key => $value) {
@@ -46,7 +41,10 @@ class View {
 	public function setPath($path) {
 		$this->path = $path;
 	}
-	
+
+	public function parse($template) {
+		return $this->twig->render($this->path . $template . $this->templateExtention, $this->data);
+	}
 	
 	public function render($template) {
 		$this->twig->display($this->path . $template . $this->templateExtention, $this->data);

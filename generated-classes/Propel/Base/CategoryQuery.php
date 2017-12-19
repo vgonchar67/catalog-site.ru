@@ -10,6 +10,7 @@ use Propel\Map\CategoryTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -38,6 +39,18 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCategoryQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
  * @method     ChildCategoryQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildCategoryQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
+ * @method     ChildCategoryQuery leftJoinCategoryGoods($relationAlias = null) Adds a LEFT JOIN clause to the query using the CategoryGoods relation
+ * @method     ChildCategoryQuery rightJoinCategoryGoods($relationAlias = null) Adds a RIGHT JOIN clause to the query using the CategoryGoods relation
+ * @method     ChildCategoryQuery innerJoinCategoryGoods($relationAlias = null) Adds a INNER JOIN clause to the query using the CategoryGoods relation
+ *
+ * @method     ChildCategoryQuery joinWithCategoryGoods($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the CategoryGoods relation
+ *
+ * @method     ChildCategoryQuery leftJoinWithCategoryGoods() Adds a LEFT JOIN clause and with to the query using the CategoryGoods relation
+ * @method     ChildCategoryQuery rightJoinWithCategoryGoods() Adds a RIGHT JOIN clause and with to the query using the CategoryGoods relation
+ * @method     ChildCategoryQuery innerJoinWithCategoryGoods() Adds a INNER JOIN clause and with to the query using the CategoryGoods relation
+ *
+ * @method     \Propel\CategoryGoodsQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCategory findOne(ConnectionInterface $con = null) Return the first ChildCategory matching the query
  * @method     ChildCategory findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCategory matching the query, or a new ChildCategory object populated from the query conditions when no match is found
@@ -406,6 +419,96 @@ abstract class CategoryQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CategoryTableMap::COL_ACTIVE, $active, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Propel\CategoryGoods object
+     *
+     * @param \Propel\CategoryGoods|ObjectCollection $categoryGoods the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildCategoryQuery The current query, for fluid interface
+     */
+    public function filterByCategoryGoods($categoryGoods, $comparison = null)
+    {
+        if ($categoryGoods instanceof \Propel\CategoryGoods) {
+            return $this
+                ->addUsingAlias(CategoryTableMap::COL_ID, $categoryGoods->getCategoryId(), $comparison);
+        } elseif ($categoryGoods instanceof ObjectCollection) {
+            return $this
+                ->useCategoryGoodsQuery()
+                ->filterByPrimaryKeys($categoryGoods->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByCategoryGoods() only accepts arguments of type \Propel\CategoryGoods or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the CategoryGoods relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildCategoryQuery The current query, for fluid interface
+     */
+    public function joinCategoryGoods($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('CategoryGoods');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'CategoryGoods');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the CategoryGoods relation CategoryGoods object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Propel\CategoryGoodsQuery A secondary query class using the current class as primary query
+     */
+    public function useCategoryGoodsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinCategoryGoods($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'CategoryGoods', '\Propel\CategoryGoodsQuery');
+    }
+
+    /**
+     * Filter the query by a related Goods object
+     * using the category_goods table as cross reference
+     *
+     * @param Goods $goods the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildCategoryQuery The current query, for fluid interface
+     */
+    public function filterByGoods($goods, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useCategoryGoodsQuery()
+            ->filterByGoods($goods, $comparison)
+            ->endUse();
     }
 
     /**
