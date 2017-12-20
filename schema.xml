@@ -18,7 +18,7 @@
         <column name="detail_text" type="longvarchar"/>
         <column name="active" type="integer" required="true"/>
         <column name="quantity" type="integer"/>
-        <column name="order_empty_quantity" type="integer"/>
+        <column name="empty_order" type="integer"/>
         <behavior name="validate">
             <parameter name="rule1" value="{column: name, validator: NotBlank, options: {message: Введите название товара}}" />
         </behavior>
@@ -27,10 +27,10 @@
     <table name="category_product" isCrossRef="true">
         <column name="category_id" type="integer" primaryKey="true"/>
         <column name="product_id" type="integer" primaryKey="true"/>
-        <foreign-key foreignTable="category">
+        <foreign-key foreignTable="category" onDelete="CASCADE">
             <reference local="category_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="product">
+        <foreign-key foreignTable="product"  onDelete="CASCADE">
             <reference local="product_id" foreign="id"/>
         </foreign-key>
     </table>

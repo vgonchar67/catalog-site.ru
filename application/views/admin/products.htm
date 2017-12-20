@@ -13,7 +13,7 @@
 
 {% block content %}
 	<h1>Панель управления</h1>
-	<a href="/admin/products/edit/0" class="btn btn-primary active" role="button">Добавить товар</a>
+	<a href="/admin/products/edit/0?ref={{ curUrlEncode }}" class="btn btn-primary active" role="button">Добавить товар</a>
 	<table class="table"> 
 		<caption>Товары</caption> 
 		<thead> 
@@ -26,17 +26,22 @@
 			</tr> 
 		</thead> 
 		<tbody> 
-			{% for item in products.items %}
+			{% for item in products %}
 				<tr> 
-					<th scope="row">{{ item.Id }}</th> 
-					<td>{{ item.Name }}</td>
-					<td>{{  item.Active ? 'Да' : 'Нет' }}</td> 
-					<th><a href="/admin/products/edit/{{ item.Id }}" class="btn btn-primary">Редактировать</a></th> 
-					<th><a href="/admin/products/delete/{{ item.Id }}" class="btn">Удалить</a></th> 
+					<th scope="row">{{ item.getId() }}</th> 
+					<td>{{ item.getName() }}</td>
+					<td>{{  item.getActive() ? 'Да' : 'Нет' }}</td> 
+					<th><a href="/admin/products/edit/{{ item.getId() }}?ref={{ curUrlEncode }}" class="btn btn-primary">Редактировать</a></th> 
+					<th>
+						<form action="/admin/products/delete" method="post" onsubmit="return confirm('Удалить товар: [{{ item.getId() }}] - {{ item.getName() }}?');">
+							<input type="hidden" name="id" value="{{ item.getId() }}">
+							<input type="submit" class="btn" value="Удалить">
+						</form>
+					</th> 
 				</tr>
 			{% endfor %}
 			
 		</tbody> 
 	</table>
-	{{ categories.pagenationHTML|raw }}
+	{{ pagenationHTML|raw }}
 {% endblock %}

@@ -28,4 +28,37 @@ class CategoryQuery extends BaseCategoryQuery
         }
         return $result;
     }
+
+    static function createWithGetFilter() {
+        $q = self::create();
+        if(!empty($_POST["category_filter_form"])) {
+            $data = $_POST;
+        } elseif (!empty($_SESSION["category_filter_form"])) {
+            $data = $_SESSION["category_filter_form"];
+        } else {
+            return $q;
+        }
+
+        if(!empty($data['clear'])) {
+            unset($_SESSION["category_filter_form"]);
+            return $q;
+        }
+        $sessionFilter = array();
+        if(!empty($data['filter_id'])) {
+            $sessionFilter['filter_id'] = $data['filter_id'];
+            $q->filterById($data['filter_id']);
+        }
+        if(!empty($data['filter_name'])) {
+            $sessionFilter['filter_name'] = $data['filter_name'];
+            $q->where('Category.Name LIKE ?', '%' . $data['filter_name'] . '%');
+        }
+        if(strlen($data['filter_active']) > 0) {
+            $sessionFilter['filter_active'] = $data['filter_active'];
+            $q->filterByActive($data['filter_active']);
+        }
+
+        $_SESSION["category_filter_form"] = $sessionFilter;
+
+        return $q;
+    }
 }

@@ -17,9 +17,6 @@ use Propel\Runtime\Connection\ConnectionInterface;
  */
 class Category extends BaseCategory
 {
-    public function preSave(ConnectionInterface $con = null) {
-		return $this->validate();
-	}
 
 	public function getErrors() {
 		$errors = array();

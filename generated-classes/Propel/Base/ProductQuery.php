@@ -26,7 +26,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProductQuery orderByDetailText($order = Criteria::ASC) Order by the detail_text column
  * @method     ChildProductQuery orderByActive($order = Criteria::ASC) Order by the active column
  * @method     ChildProductQuery orderByQuantity($order = Criteria::ASC) Order by the quantity column
- * @method     ChildProductQuery orderByOrderEmptyQuantity($order = Criteria::ASC) Order by the order_empty_quantity column
+ * @method     ChildProductQuery orderByEmptyOrder($order = Criteria::ASC) Order by the empty_order column
  *
  * @method     ChildProductQuery groupById() Group by the id column
  * @method     ChildProductQuery groupByName() Group by the name column
@@ -34,7 +34,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProductQuery groupByDetailText() Group by the detail_text column
  * @method     ChildProductQuery groupByActive() Group by the active column
  * @method     ChildProductQuery groupByQuantity() Group by the quantity column
- * @method     ChildProductQuery groupByOrderEmptyQuantity() Group by the order_empty_quantity column
+ * @method     ChildProductQuery groupByEmptyOrder() Group by the empty_order column
  *
  * @method     ChildProductQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildProductQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -65,7 +65,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProduct findOneByDetailText(string $detail_text) Return the first ChildProduct filtered by the detail_text column
  * @method     ChildProduct findOneByActive(int $active) Return the first ChildProduct filtered by the active column
  * @method     ChildProduct findOneByQuantity(int $quantity) Return the first ChildProduct filtered by the quantity column
- * @method     ChildProduct findOneByOrderEmptyQuantity(int $order_empty_quantity) Return the first ChildProduct filtered by the order_empty_quantity column *
+ * @method     ChildProduct findOneByEmptyOrder(int $empty_order) Return the first ChildProduct filtered by the empty_order column *
 
  * @method     ChildProduct requirePk($key, ConnectionInterface $con = null) Return the ChildProduct by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildProduct requireOne(ConnectionInterface $con = null) Return the first ChildProduct matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -76,7 +76,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProduct requireOneByDetailText(string $detail_text) Return the first ChildProduct filtered by the detail_text column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildProduct requireOneByActive(int $active) Return the first ChildProduct filtered by the active column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildProduct requireOneByQuantity(int $quantity) Return the first ChildProduct filtered by the quantity column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildProduct requireOneByOrderEmptyQuantity(int $order_empty_quantity) Return the first ChildProduct filtered by the order_empty_quantity column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildProduct requireOneByEmptyOrder(int $empty_order) Return the first ChildProduct filtered by the empty_order column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildProduct[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildProduct objects based on current ModelCriteria
  * @method     ChildProduct[]|ObjectCollection findById(int $id) Return ChildProduct objects filtered by the id column
@@ -85,7 +85,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProduct[]|ObjectCollection findByDetailText(string $detail_text) Return ChildProduct objects filtered by the detail_text column
  * @method     ChildProduct[]|ObjectCollection findByActive(int $active) Return ChildProduct objects filtered by the active column
  * @method     ChildProduct[]|ObjectCollection findByQuantity(int $quantity) Return ChildProduct objects filtered by the quantity column
- * @method     ChildProduct[]|ObjectCollection findByOrderEmptyQuantity(int $order_empty_quantity) Return ChildProduct objects filtered by the order_empty_quantity column
+ * @method     ChildProduct[]|ObjectCollection findByEmptyOrder(int $empty_order) Return ChildProduct objects filtered by the empty_order column
  * @method     ChildProduct[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -184,7 +184,7 @@ abstract class ProductQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, name, preview_text, detail_text, active, quantity, order_empty_quantity FROM product WHERE id = :p0';
+        $sql = 'SELECT id, name, preview_text, detail_text, active, quantity, empty_order FROM product WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -473,16 +473,16 @@ abstract class ProductQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the order_empty_quantity column
+     * Filter the query on the empty_order column
      *
      * Example usage:
      * <code>
-     * $query->filterByOrderEmptyQuantity(1234); // WHERE order_empty_quantity = 1234
-     * $query->filterByOrderEmptyQuantity(array(12, 34)); // WHERE order_empty_quantity IN (12, 34)
-     * $query->filterByOrderEmptyQuantity(array('min' => 12)); // WHERE order_empty_quantity > 12
+     * $query->filterByEmptyOrder(1234); // WHERE empty_order = 1234
+     * $query->filterByEmptyOrder(array(12, 34)); // WHERE empty_order IN (12, 34)
+     * $query->filterByEmptyOrder(array('min' => 12)); // WHERE empty_order > 12
      * </code>
      *
-     * @param     mixed $orderEmptyQuantity The value to use as filter.
+     * @param     mixed $emptyOrder The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -490,16 +490,16 @@ abstract class ProductQuery extends ModelCriteria
      *
      * @return $this|ChildProductQuery The current query, for fluid interface
      */
-    public function filterByOrderEmptyQuantity($orderEmptyQuantity = null, $comparison = null)
+    public function filterByEmptyOrder($emptyOrder = null, $comparison = null)
     {
-        if (is_array($orderEmptyQuantity)) {
+        if (is_array($emptyOrder)) {
             $useMinMax = false;
-            if (isset($orderEmptyQuantity['min'])) {
-                $this->addUsingAlias(ProductTableMap::COL_ORDER_EMPTY_QUANTITY, $orderEmptyQuantity['min'], Criteria::GREATER_EQUAL);
+            if (isset($emptyOrder['min'])) {
+                $this->addUsingAlias(ProductTableMap::COL_EMPTY_ORDER, $emptyOrder['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($orderEmptyQuantity['max'])) {
-                $this->addUsingAlias(ProductTableMap::COL_ORDER_EMPTY_QUANTITY, $orderEmptyQuantity['max'], Criteria::LESS_EQUAL);
+            if (isset($emptyOrder['max'])) {
+                $this->addUsingAlias(ProductTableMap::COL_EMPTY_ORDER, $emptyOrder['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -510,7 +510,7 @@ abstract class ProductQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(ProductTableMap::COL_ORDER_EMPTY_QUANTITY, $orderEmptyQuantity, $comparison);
+        return $this->addUsingAlias(ProductTableMap::COL_EMPTY_ORDER, $emptyOrder, $comparison);
     }
 
     /**

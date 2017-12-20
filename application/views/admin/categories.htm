@@ -13,7 +13,36 @@
 
 {% block content %}
 	<h1>Панель управления</h1>
-	<a href="/admin/categories/edit/0" class="btn btn-primary active" role="button">Добавить категорию</a>
+
+	<form class="form-inline filter-form {{ filter ? 'active' }}" method="post">
+		<input hidden name="category_filter_form" value="1">
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">id</div>
+				<input type="text" class="form-control" id="filter_id" name="filter_id" value="{{ filter.filter_id }}">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">Название</div>
+				<input type="text" class="form-control" id="filter_name" name="filter_name" value="{{ filter.filter_name }}">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+				<div class="input-group">
+					<div class="input-group-addon">Активность</div>
+					<select class="form-control" name="filter_active" value="{{ filter.filter_active }}">
+						<option></option>
+						<option value="1" {{ filter.filter_active == '1' ? "selected"}}>Да</option>
+						<option value="0" {{ filter.filter_active == '0' ? "selected"}}>Нет</option>
+					</select>
+				</div>
+			</div>
+		<button type="submit" class="btn btn-default">Найти</button>
+		<button type="submit" name="clear" value="1" class="btn btn-default">Отмена</button>
+	</form>
+	<br>
+	<a href="/admin/categories/edit/0?ref={{ curUrlEncode }}" class="btn btn-primary active" role="button">Добавить категорию</a>
 	<table class="table"> 
 		<caption>Категории</caption> 
 		<thead> 
@@ -26,17 +55,22 @@
 			</tr> 
 		</thead> 
 		<tbody> 
-			{% for item in categories.items %}
+			{% for item in categories %}
 				<tr> 
-					<th scope="row">{{ item.Id }}</th> 
-					<td>{{ item.Name }}</td>
-					<td>{{  item.Active ? 'Да' : 'Нет' }}</td> 
-					<th><a href="/admin/categories/edit/{{ item.Id }}" class="btn btn-primary">Редактировать</a></th> 
-					<th><a href="/admin/categories/delete/{{ item.Id }}" class="btn">Удалить</a></th> 
+					<th scope="row">{{ item.getId() }}</th> 
+					<td>{{ item.getName() }}</td>
+					<td>{{  item.getActive() ? 'Да' : 'Нет' }}</td> 
+					<th><a href="/admin/categories/edit/{{ item.getId() }}?ref={{ curUrlEncode }}" class="btn btn-primary">Редактировать</a></th> 
+					<th>
+						<form action="/admin/categories/delete" method="post" onsubmit="return confirm('Удалить категорию: [{{ item.getId() }}] - {{ item.getName() }}');">
+							<input type="hidden" name="id" value="{{ item.getId() }}">
+							<input type="submit" class="btn" value="Удалить">
+						</form> 
+					</th>
 				</tr>
 			{% endfor %}
 			
 		</tbody> 
 	</table>
-	{{ categories.pagenationHTML|raw }}
+	{{ pagenationHTML|raw }}
 {% endblock %}

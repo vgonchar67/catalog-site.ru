@@ -1,24 +1,26 @@
 {% extends layout %}
 
-{% block title %}Каталог{% endblock %}
+{% block title %} {{ category.getName() }} {% endblock %}
 
 {% block content %}
-    <h1>{{ category.Name }}</h1>
+    <h1>{{ category.getName() }}</h1>
     <div class="row">
 
         {% for item in products %}
         <div class="col-sm-4">
           <div class="thumbnail">
             <div class="caption">
-              <h3><a href="/catalog/{{ item.Id }}">{{ item.Name }}</a></h3>
+              <h3><a href="/catalog/{{ category.getId() }}/{{ item.getId() }}">{{ item.getName() }}</a></h3>
               <div>{{ item.PreviewText }}</div>
               <br>
-              {% if item.Quantity %}
+              {% if item.getQuantity() %}
                 <p class="bg-success">Есть в наличии</p>
               {% else %}
                 <p class="bg-danger">Нет в наличии</p>
               {% endif %}
-              <p><a href="#" class="btn btn-primary" role="button">Заказать</a></p>
+              {% if item.getQuantity() or item.emptyOrder() %}
+                <p><a href="#" class="btn btn-primary" role="button">Заказать</a></p>
+              {% endif %}
             </div>
           </div>
         </div>

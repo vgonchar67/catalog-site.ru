@@ -1,19 +1,18 @@
 <?php 
 namespace App\core;
 
-use App\Core\URL;
+use App\Core\Uri;
 
 class Pagenation {
 
 	private $_currentPage, $_count, $_limit, $_countPages, $_link;
 	private $_viewPages = 5;
 
-	function __construct ($count, $limit, $currentPage=1, $link = '/') {
+	function __construct ($count, $limit, $currentPage=1) {
 
 		$currentPage = (int)$currentPage <= 0 ? 1 : (int)$currentPage;
 		$this->_count = $count;
 		$this->_limit = $limit;
-		$this->_link = $link;
 		$this->_countPages = ceil($count/$limit);
 		if($currentPage > $this->_countPages) {
 			$currentPage = $this->_countPages;
@@ -22,12 +21,16 @@ class Pagenation {
 	}
 
 	function getHtml() {
+		if($this->_countPages <=1 ) {
+			return '';
+		}
 		$view = new View;
 		$view->set(['pages' => $this->getPagesArray()]);
 		return $view->parse('pagenation');
 	}
 
 	function getPagesArray() {
+		
 		$left = round($this->_viewPages/2);
 		$startPage = $this->_currentPage - $left + 1;
 

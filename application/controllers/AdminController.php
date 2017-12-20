@@ -18,18 +18,18 @@ class adminController  extends Controller {
 	}
 
 	function categoriesAction () {
-
-		$count = CategoryQuery::create()->count();
-		$pagenation = new Pagenation($count, self::COUNT_ON_PAGE, $this->request->get['page']);
-		$categories = CategoryQuery::create()
-			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE)
-			->toArray();
 		
-		$this->view->set(['categories' => [
-			'count'=> $count,
-			'items' => $categories,
+		$q = CategoryQuery::createWithGetFilter();
+
+		$pagenation = new Pagenation($q->count(), self::COUNT_ON_PAGE, $this->request->get['page']);
+		$categories = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
+
+		$this->view->set([
+			'filter' => $_SESSION["category_filter_form"],
+			'curUrlEncode' => urlencode($this->request->server['REQUEST_URI']),
+			'categories' => $categories,
 			'pagenationHTML' =>  $pagenation->getHtml()
-		]]);
+		]);
 	}
 
 	function productsAction () {
@@ -37,17 +37,18 @@ class adminController  extends Controller {
 		$count = ProductQuery::create()->count();
 		$pagenation = new Pagenation($count, self::COUNT_ON_PAGE, $this->request->get['page']);
 		$products = ProductQuery::create()
-			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE)
-			->toArray();
+			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 		
-		$this->view->set(['products' => [
-			'count'=> $count,
-			'items' => $products,
+		$this->view->set([
+			'curUrlEncode' => urlencode($this->request->server['REQUEST_URI']),
+			'products' => $products,
 			'pagenationHTML' =>  $pagenation->getHtml()
-		]]);
+		]);
 	}
 
 	function editCategoryAction ($id) {
+		$ref =$this->request->get["ref"];
+		$ref = $ref ? $ref : '/admin/categories';
 
 		$category = $id ? CategoryQuery::create()->findPK($id) : new Category();
 
@@ -57,25 +58,28 @@ class adminController  extends Controller {
 
 		if($this->request->post) {
 
-			$category->setName(trim($this->request->post['Name']));
-			$category->setActive((int)$this->request->post['Active']);
-			$category->setPreviewText($this->request->post['PreviewText']);
-			$category->setDetailText($this->request->post['DetailText']);
+			$category->setName(trim($this->request->post['name']));
+			$category->setActive((int)$this->request->post['active']);
+			$category->setPreviewText($this->request->post['preview_text']);
+			$category->setDetailText($this->request->post['detail_text']);
 
 			if($category->validate()) {
 				$category->save();
-				$this->response->redirect('/admin/categories');
+				$this->response->redirect($ref);
 			}
 		}
 		
 	
-		$this->view->set(['category' => [
+		$this->view->set([
+			'ref' => $ref,
 			'errors' => $category->getErrors(),
-			'values' => $category->toArray()
-		]]);
+			'category' => $category
+		]);
 	}
 
 	function editProductAction ($id) {
+		$ref =$this->request->get["ref"];
+		$ref = $ref ? $ref : '/admin/categories';
 
 		$product = $id ? ProductQuery::create()->findPK($id) : new Product();
 
@@ -85,12 +89,12 @@ class adminController  extends Controller {
 		
 		if($this->request->post) {
 
-			$product->setName(trim($this->request->post['Name']));
-			$product->setActive((int)$this->request->post['Active']);
-			$product->setPreviewText($this->request->post['PreviewText']);
-			$product->setDetailText($this->request->post['DetailText']);
-			$product->setQuantity((int)$this->request->post['Quantity']);
-			$product->setOrderEmptyQuantity((int)$this->request->post['OrderEmptyQuantity']);
+			$product->setName(trim($this->request->post['name']));
+			$product->setActive((int)$this->request->post['active']);
+			$product->setPreviewText($this->request->post['preview_text']);
+			$product->setDetailText($this->request->post['detail_text']);
+			$product->setQuantity((int)$this->request->post['quantity']);
+			$product->setEmptyOrder((int)$this->request->post['empty_order']);
 
 
 			$categories = CategoryQuery::create()->findPKs($this->request->post['Categories']);
@@ -98,18 +102,43 @@ class adminController  extends Controller {
 						
 			if($product->validate()) {
 				$product->save();
-				$this->response->redirect('/admin/products');
+				$this->response->redirect($ref);
 			}
 		}
 
-		$values = $product->toArray();
-		$values['categories'] = $product->getCategories()->toArray('Id');
-
-		$this->view->set(['product' => [
+		$this->view->set([
+			'ref' => $ref,
 			'errors' => $product->getErrors(),
-			'values' => $values,
-			'categories' => CategoryQuery::getNamesArray()
-		]]);
+			'product' => $product,
+			'selectedCategories' => $product->getCategories()->toArray('Id'),
+			'categories' => CategoryQuery::create()->find()
+		]);
+	}
+
+	public function deleteCategoryAction() {
+
+		if($this->request->post["id"]) {
+
+			CategoryQuery::create()->findPK($this->request->post["id"])->delete();
+
+			$this->response->redirect($_SERVER["HTTP_REFERER"]);
+		}
+
+		throw new CoreException;
+
+	}
+
+	public function deleteProductAction() {
+
+		if($this->request->post["id"]) {
+			
+			ProductQuery::create()->findPK($this->request->post["id"])->delete();
+
+			$this->response->redirect($_SERVER["HTTP_REFERER"]);
+		}
+
+		throw new CoreException;
+
 	}
 
 } 

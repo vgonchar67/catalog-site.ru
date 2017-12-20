@@ -13,18 +13,14 @@ class CatalogController  extends Controller {
 
 	function indexAction () {
 
-		$count = CategoryQuery::create()->filterByActive(1)->count();
-		$pagenation = new Pagenation($count, self::COUNT_ON_PAGE, $this->request->get['page']);
-		$categories = CategoryQuery::create()
-			->filterByActive(1)
-			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE)
-			->toArray();
+		$q = CategoryQuery::create()->filterByActive(1);
+		$pagenation = new Pagenation($q->count(), self::COUNT_ON_PAGE, $this->request->get['page']);
+		$categories = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 		
-		$this->view->set(['categories' => [
-			'count'=> $count,
-			'items' => $categories,
+		$this->view->set([
+			'categories' => $categories,
 			'pagenationHTML' =>  $pagenation->getHtml()
-		]]);
+		]);
 	}
 
 	function categoryAction ($id) {
@@ -42,8 +38,9 @@ class CatalogController  extends Controller {
 		$products = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 
 		$this->view->set([
-			'category' => $category->toArray(),
-			'products' => $products->toArray()
+			'category' => $category,
+			'products' => $products,
+			'pagenationHTML' => $pagenation->getHTML()
 		]);
 	}
 

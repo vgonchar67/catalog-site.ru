@@ -102,9 +102,9 @@ class ProductTableMap extends TableMap
     const COL_QUANTITY = 'product.quantity';
 
     /**
-     * the column name for the order_empty_quantity field
+     * the column name for the empty_order field
      */
-    const COL_ORDER_EMPTY_QUANTITY = 'product.order_empty_quantity';
+    const COL_EMPTY_ORDER = 'product.empty_order';
 
     /**
      * The default string format for model objects of the related table
@@ -118,10 +118,10 @@ class ProductTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'PreviewText', 'DetailText', 'Active', 'Quantity', 'OrderEmptyQuantity', ),
-        self::TYPE_CAMELNAME     => array('id', 'name', 'previewText', 'detailText', 'active', 'quantity', 'orderEmptyQuantity', ),
-        self::TYPE_COLNAME       => array(ProductTableMap::COL_ID, ProductTableMap::COL_NAME, ProductTableMap::COL_PREVIEW_TEXT, ProductTableMap::COL_DETAIL_TEXT, ProductTableMap::COL_ACTIVE, ProductTableMap::COL_QUANTITY, ProductTableMap::COL_ORDER_EMPTY_QUANTITY, ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'preview_text', 'detail_text', 'active', 'quantity', 'order_empty_quantity', ),
+        self::TYPE_PHPNAME       => array('Id', 'Name', 'PreviewText', 'DetailText', 'Active', 'Quantity', 'EmptyOrder', ),
+        self::TYPE_CAMELNAME     => array('id', 'name', 'previewText', 'detailText', 'active', 'quantity', 'emptyOrder', ),
+        self::TYPE_COLNAME       => array(ProductTableMap::COL_ID, ProductTableMap::COL_NAME, ProductTableMap::COL_PREVIEW_TEXT, ProductTableMap::COL_DETAIL_TEXT, ProductTableMap::COL_ACTIVE, ProductTableMap::COL_QUANTITY, ProductTableMap::COL_EMPTY_ORDER, ),
+        self::TYPE_FIELDNAME     => array('id', 'name', 'preview_text', 'detail_text', 'active', 'quantity', 'empty_order', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -132,10 +132,10 @@ class ProductTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'PreviewText' => 2, 'DetailText' => 3, 'Active' => 4, 'Quantity' => 5, 'OrderEmptyQuantity' => 6, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'name' => 1, 'previewText' => 2, 'detailText' => 3, 'active' => 4, 'quantity' => 5, 'orderEmptyQuantity' => 6, ),
-        self::TYPE_COLNAME       => array(ProductTableMap::COL_ID => 0, ProductTableMap::COL_NAME => 1, ProductTableMap::COL_PREVIEW_TEXT => 2, ProductTableMap::COL_DETAIL_TEXT => 3, ProductTableMap::COL_ACTIVE => 4, ProductTableMap::COL_QUANTITY => 5, ProductTableMap::COL_ORDER_EMPTY_QUANTITY => 6, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'preview_text' => 2, 'detail_text' => 3, 'active' => 4, 'quantity' => 5, 'order_empty_quantity' => 6, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'PreviewText' => 2, 'DetailText' => 3, 'Active' => 4, 'Quantity' => 5, 'EmptyOrder' => 6, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'name' => 1, 'previewText' => 2, 'detailText' => 3, 'active' => 4, 'quantity' => 5, 'emptyOrder' => 6, ),
+        self::TYPE_COLNAME       => array(ProductTableMap::COL_ID => 0, ProductTableMap::COL_NAME => 1, ProductTableMap::COL_PREVIEW_TEXT => 2, ProductTableMap::COL_DETAIL_TEXT => 3, ProductTableMap::COL_ACTIVE => 4, ProductTableMap::COL_QUANTITY => 5, ProductTableMap::COL_EMPTY_ORDER => 6, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'preview_text' => 2, 'detail_text' => 3, 'active' => 4, 'quantity' => 5, 'empty_order' => 6, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -162,7 +162,7 @@ class ProductTableMap extends TableMap
         $this->addColumn('detail_text', 'DetailText', 'LONGVARCHAR', false, null, null);
         $this->addColumn('active', 'Active', 'INTEGER', true, null, null);
         $this->addColumn('quantity', 'Quantity', 'INTEGER', false, null, null);
-        $this->addColumn('order_empty_quantity', 'OrderEmptyQuantity', 'INTEGER', false, null, null);
+        $this->addColumn('empty_order', 'EmptyOrder', 'INTEGER', false, null, null);
     } // initialize()
 
     /**
@@ -340,7 +340,7 @@ class ProductTableMap extends TableMap
             $criteria->addSelectColumn(ProductTableMap::COL_DETAIL_TEXT);
             $criteria->addSelectColumn(ProductTableMap::COL_ACTIVE);
             $criteria->addSelectColumn(ProductTableMap::COL_QUANTITY);
-            $criteria->addSelectColumn(ProductTableMap::COL_ORDER_EMPTY_QUANTITY);
+            $criteria->addSelectColumn(ProductTableMap::COL_EMPTY_ORDER);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.name');
@@ -348,7 +348,7 @@ class ProductTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.detail_text');
             $criteria->addSelectColumn($alias . '.active');
             $criteria->addSelectColumn($alias . '.quantity');
-            $criteria->addSelectColumn($alias . '.order_empty_quantity');
+            $criteria->addSelectColumn($alias . '.empty_order');
         }
     }
 

@@ -119,11 +119,11 @@ abstract class Product implements ActiveRecordInterface
     protected $quantity;
 
     /**
-     * The value for the order_empty_quantity field.
+     * The value for the empty_order field.
      *
      * @var        int
      */
-    protected $order_empty_quantity;
+    protected $empty_order;
 
     /**
      * @var        ObjectCollection|ChildCategoryProduct[] Collection to store aggregation of ChildCategoryProduct objects.
@@ -464,13 +464,13 @@ abstract class Product implements ActiveRecordInterface
     }
 
     /**
-     * Get the [order_empty_quantity] column value.
+     * Get the [empty_order] column value.
      *
      * @return int
      */
-    public function getOrderEmptyQuantity()
+    public function getEmptyOrder()
     {
-        return $this->order_empty_quantity;
+        return $this->empty_order;
     }
 
     /**
@@ -594,24 +594,24 @@ abstract class Product implements ActiveRecordInterface
     } // setQuantity()
 
     /**
-     * Set the value of [order_empty_quantity] column.
+     * Set the value of [empty_order] column.
      *
      * @param int $v new value
      * @return $this|\Propel\Product The current object (for fluent API support)
      */
-    public function setOrderEmptyQuantity($v)
+    public function setEmptyOrder($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->order_empty_quantity !== $v) {
-            $this->order_empty_quantity = $v;
-            $this->modifiedColumns[ProductTableMap::COL_ORDER_EMPTY_QUANTITY] = true;
+        if ($this->empty_order !== $v) {
+            $this->empty_order = $v;
+            $this->modifiedColumns[ProductTableMap::COL_EMPTY_ORDER] = true;
         }
 
         return $this;
-    } // setOrderEmptyQuantity()
+    } // setEmptyOrder()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -667,8 +667,8 @@ abstract class Product implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ProductTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
             $this->quantity = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ProductTableMap::translateFieldName('OrderEmptyQuantity', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->order_empty_quantity = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ProductTableMap::translateFieldName('EmptyOrder', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->empty_order = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -945,8 +945,8 @@ abstract class Product implements ActiveRecordInterface
         if ($this->isColumnModified(ProductTableMap::COL_QUANTITY)) {
             $modifiedColumns[':p' . $index++]  = 'quantity';
         }
-        if ($this->isColumnModified(ProductTableMap::COL_ORDER_EMPTY_QUANTITY)) {
-            $modifiedColumns[':p' . $index++]  = 'order_empty_quantity';
+        if ($this->isColumnModified(ProductTableMap::COL_EMPTY_ORDER)) {
+            $modifiedColumns[':p' . $index++]  = 'empty_order';
         }
 
         $sql = sprintf(
@@ -977,8 +977,8 @@ abstract class Product implements ActiveRecordInterface
                     case 'quantity':
                         $stmt->bindValue($identifier, $this->quantity, PDO::PARAM_INT);
                         break;
-                    case 'order_empty_quantity':
-                        $stmt->bindValue($identifier, $this->order_empty_quantity, PDO::PARAM_INT);
+                    case 'empty_order':
+                        $stmt->bindValue($identifier, $this->empty_order, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1061,7 +1061,7 @@ abstract class Product implements ActiveRecordInterface
                 return $this->getQuantity();
                 break;
             case 6:
-                return $this->getOrderEmptyQuantity();
+                return $this->getEmptyOrder();
                 break;
             default:
                 return null;
@@ -1099,7 +1099,7 @@ abstract class Product implements ActiveRecordInterface
             $keys[3] => $this->getDetailText(),
             $keys[4] => $this->getActive(),
             $keys[5] => $this->getQuantity(),
-            $keys[6] => $this->getOrderEmptyQuantity(),
+            $keys[6] => $this->getEmptyOrder(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1175,7 +1175,7 @@ abstract class Product implements ActiveRecordInterface
                 $this->setQuantity($value);
                 break;
             case 6:
-                $this->setOrderEmptyQuantity($value);
+                $this->setEmptyOrder($value);
                 break;
         } // switch()
 
@@ -1222,7 +1222,7 @@ abstract class Product implements ActiveRecordInterface
             $this->setQuantity($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setOrderEmptyQuantity($arr[$keys[6]]);
+            $this->setEmptyOrder($arr[$keys[6]]);
         }
     }
 
@@ -1283,8 +1283,8 @@ abstract class Product implements ActiveRecordInterface
         if ($this->isColumnModified(ProductTableMap::COL_QUANTITY)) {
             $criteria->add(ProductTableMap::COL_QUANTITY, $this->quantity);
         }
-        if ($this->isColumnModified(ProductTableMap::COL_ORDER_EMPTY_QUANTITY)) {
-            $criteria->add(ProductTableMap::COL_ORDER_EMPTY_QUANTITY, $this->order_empty_quantity);
+        if ($this->isColumnModified(ProductTableMap::COL_EMPTY_ORDER)) {
+            $criteria->add(ProductTableMap::COL_EMPTY_ORDER, $this->empty_order);
         }
 
         return $criteria;
@@ -1377,7 +1377,7 @@ abstract class Product implements ActiveRecordInterface
         $copyObj->setDetailText($this->getDetailText());
         $copyObj->setActive($this->getActive());
         $copyObj->setQuantity($this->getQuantity());
-        $copyObj->setOrderEmptyQuantity($this->getOrderEmptyQuantity());
+        $copyObj->setEmptyOrder($this->getEmptyOrder());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1946,7 +1946,7 @@ abstract class Product implements ActiveRecordInterface
         $this->detail_text = null;
         $this->active = null;
         $this->quantity = null;
-        $this->order_empty_quantity = null;
+        $this->empty_order = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

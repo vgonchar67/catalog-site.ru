@@ -5,12 +5,12 @@
 {% block content %}
     <h1>Каталог</h1>
     <div class="row">
-        {% for item in categories.items %}
+        {% for item in categories %}
         <div class="col-sm-6">
           <div class="thumbnail">
             <div class="caption">
-              <h3><a href="/catalog/{{ item.Id }}">{{ item.Name }}</a></h3>
-              <div>{{ item.PreviewText }}</div>
+              <h3><a href="/catalog/{{ item.getId() }}">{{ item.getName() }}</a></h3>
+              <div>{{ item.getPreviewText() }}</div>
               <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
             </div>
           </div>
