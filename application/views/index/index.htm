@@ -1,21 +1,2 @@
-{% extends layout %}
-
-{% block title %}Каталог{% endblock %}
-
-{% block content %}
-    <h1>Каталог</h1>
-    <div class="row">
-        {% for item in categories.items %}
-        <div class="col-sm-6">
-          <div class="thumbnail">
-            <div class="caption">
-              <h3><a href="/catalog/{{ item.Id }}">{{ item.Name }}</a></h3>
-              <div>{{ item.PreviewText }}</div>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-    </div>
-    {{ categories.pagenationHTML|raw }}
-{% endblock %}
+<p>Мы живем в век бурного развития технологий, практически любой товар можно приобрести, не выходя из дома. Сотни интернет-магазинов предлагают свои услуги. Одни продают по невероятно низкой цене, другие поражают воображение огромным ассортиментом, третьи способны обеспечить качественное сервисное обслуживание. Но лишь немногие способны объединить эти три составляющие, необходимые для успешной покупки. </p>
+<strong><big>Мы предлагаем товары по наиболее привлекательным ценам, не забывая о качественном сервисе и высоком профессионализме <a href="/catalog">Перейти в каталог</a></big></strong>

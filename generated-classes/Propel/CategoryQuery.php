@@ -16,49 +16,27 @@ use Propel\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-
-    static function getNamesArray() {
-        $categories = self::create()->orderByName()->find();
-		$result = array();
-		foreach($categories as $category) {
-			$result[] = [
-				'Name' => $category->getName(),
-				'Id' => $category->getId()
-            ];
+    public function setFilters($data) {
+        
+        if(empty($data)) {
+            return $this;
         }
-        return $result;
+        foreach($data as $key => $value){
+            $value = trim($value);
+            if(strlen($value) < 1) {
+                continue;
+            }
+            switch($key) {
+                case "id": $this->filterById($value); break;
+                case "name": $this->where('Category.Name LIKE ?', '%' . $value . '%'); break;
+                case "active": $this->filterByActive($value); break;
+            } 
+        }
+
+        return $this;
     }
 
-    static function createWithGetFilter() {
-        $q = self::create();
-        if(!empty($_POST["category_filter_form"])) {
-            $data = $_POST;
-        } elseif (!empty($_SESSION["category_filter_form"])) {
-            $data = $_SESSION["category_filter_form"];
-        } else {
-            return $q;
-        }
-
-        if(!empty($data['clear'])) {
-            unset($_SESSION["category_filter_form"]);
-            return $q;
-        }
-        $sessionFilter = array();
-        if(!empty($data['filter_id'])) {
-            $sessionFilter['filter_id'] = $data['filter_id'];
-            $q->filterById($data['filter_id']);
-        }
-        if(!empty($data['filter_name'])) {
-            $sessionFilter['filter_name'] = $data['filter_name'];
-            $q->where('Category.Name LIKE ?', '%' . $data['filter_name'] . '%');
-        }
-        if(strlen($data['filter_active']) > 0) {
-            $sessionFilter['filter_active'] = $data['filter_active'];
-            $q->filterByActive($data['filter_active']);
-        }
-
-        $_SESSION["category_filter_form"] = $sessionFilter;
-
-        return $q;
+    static function getNamesArray() {
+        return CategoryQuery::create()->select(array('id', 'name'))->find()->toArray('id');
     }
 }

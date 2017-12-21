@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{% block title %}{% endblock %}</title>
+	<title>{{ title }}</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	
 	<link rel="stylesheet" href="/public/css/ickeck-bootstrap.min.css">
@@ -12,15 +12,31 @@
 <header>
 	<div class="container">
 		<a href="/" class="logo pull-left"><img src="/public/images/logo.png" /></a>
+		<a href="/catalog" class="btn btn-default">Каталог</a>
 		<div class="header-buttons pull-right">
 			<a href="/admin" class="btn btn-default">Административный раздел</a>
 		</div>
 	</div>
 </header>
 <div class="content container">
+
+		<ul class="breadcrumb">
+			
+			{% for item in breadcrumbs %}
+				{% if loop.last %}
+					<li class="active">{{ item.0 }}</li>
+				{% else %}
+					<li><a href="{{ item.1 }}">{{ item.0 }}</a></li>
+				{% endif %}
+			
+			{% endfor %}
+		</ul>
+
 	{% block leftSiteBar %}{% endblock %}
+	{% block rightSiteBar %}{% endblock %}
 	<div class="page-content">
-		{% block content %}{% endblock %}
+		<h1>{{ title }}</h1>
+		{% block content %}{% include include_content %}{% endblock %}
 	</div>
 </div>
 <footer >
@@ -29,8 +45,11 @@
 	</div>
 </footer>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="/public/js/script.js"></script>
+{# note: disabled template because we no longer use this
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/public/js/script.js"></script>
+#}
+
 </body>
 </html>

@@ -1,0 +1,14 @@
+<div>
+  {% if product.getQuantity() %}
+    <p class="bg-success">Есть в наличии ({{product.getQuantity()}} шт.)</p>
+  {% else %}
+    <p class="bg-danger">Нет в наличии</p>
+  {% endif %}
+  {% if product.getQuantity() or product.emptyOrder() %}
+    <p><a href="#" class="btn btn-primary" role="button">Заказать</a></p>
+  {% endif %}
+</div>
+<div>
+  {{ product.getDetailText() | raw }}
+</div>
+

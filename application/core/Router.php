@@ -8,8 +8,7 @@ class Router {
 	private $_segments = [];
 	
 	function __construct($routes) {
-		$uri = new Uri();
-		$uriPath = $uri->getPath();
+		$uriPath = (new Uri())->getPath();
 		
 		foreach($routes as $pattern => $value) {
 			

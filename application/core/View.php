@@ -6,7 +6,7 @@ use \App\exceptions\CoreException;
 class View {
 	
 	public $data = [];
-	
+
 	private $viewsRoot;
 	
 	private $path = '/';
@@ -27,6 +27,12 @@ class View {
 		$this->twig = new \Twig_Environment($this->loader);
 	}
 	
+	/**
+	 * Undocumented function
+	 *
+	 * @param array $arr
+	 * @return void
+	 */
 	function set(array $arr) {
 		foreach ($arr as $key => $value) {
 			$this->data[$key] = $value;
@@ -47,6 +53,12 @@ class View {
 	}
 	
 	public function render($template) {
-		$this->twig->display($this->path . $template . $this->templateExtention, $this->data);
+		if(empty($this->data["layout"])) {
+			$this->twig->display($this->path . $template . $this->templateExtention, $this->data);
+		} else {
+			$this->data["include_content"] = $this->path . $template . $this->templateExtention;
+			$this->twig->display($this->data["layout"], $this->data);
+		}
+		
 	}
 }

@@ -11,44 +11,67 @@ use App\Exceptions\CoreException;
 
 class adminController  extends Controller {
 
-	const COUNT_ON_PAGE = 5;
+	const COUNT_ON_PAGE = 2;
+	const DEFAULT_LAYOUT = 'admin';
 
 	function indexAction () {
-
+		$this->view->set([
+			'title' => "Панель управления",
+			'breadcrumbs' => [['Панель управления']]
+		]);
 	}
 
 	function categoriesAction () {
 		
-		$q = CategoryQuery::createWithGetFilter();
+		if($this->request->post) {
+			if($this->request->post["cancel"]) {
+				unset($_SESSION['category_filter']);
+			} else {
+				$_SESSION['category_filter'] = $this->request->post;
+			} 
+		}
 
+		$q = CategoryQuery::create()->setFilters($_SESSION['category_filter']);
 		$pagenation = new Pagenation($q->count(), self::COUNT_ON_PAGE, $this->request->get['page']);
 		$categories = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 
 		$this->view->set([
-			'filter' => $_SESSION["category_filter_form"],
+			'title' => "Категории",
+			'filter' => $_SESSION['category_filter'],
 			'curUrlEncode' => urlencode($this->request->server['REQUEST_URI']),
 			'categories' => $categories,
-			'pagenationHTML' =>  $pagenation->getHtml()
+			'pagenationHTML' =>  $pagenation->getHtml(),
+			'breadcrumbs' => [['Панель управления', '/admin'],['Категории']]
 		]);
 	}
 
 	function productsAction () {
 
-		$count = ProductQuery::create()->count();
-		$pagenation = new Pagenation($count, self::COUNT_ON_PAGE, $this->request->get['page']);
-		$products = ProductQuery::create()
-			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
-		
+		if($this->request->post) {
+			if($this->request->post["cancel"]) {
+				unset($_SESSION['product_filter']);
+			} else {
+				$_SESSION['product_filter'] = $this->request->post;
+			} 
+		}
+
+		$q = ProductQuery::create()->setFilters($_SESSION['product_filter']);
+		$pagenation = new Pagenation($q->count(), self::COUNT_ON_PAGE, $this->request->get['page']);
+		$products = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
+
 		$this->view->set([
+			'title' => "Товары",
+			'categories' => CategoryQuery::getNamesArray(),
+			'filter' => $_SESSION['product_filter'],
 			'curUrlEncode' => urlencode($this->request->server['REQUEST_URI']),
 			'products' => $products,
-			'pagenationHTML' =>  $pagenation->getHtml()
+			'pagenationHTML' =>  $pagenation->getHtml(),
+			'breadcrumbs' => [['Панель управления', '/admin'],['Товары']]
 		]);
 	}
 
 	function editCategoryAction ($id) {
-		$ref =$this->request->get["ref"];
-		$ref = $ref ? $ref : '/admin/categories';
+		$ref = $this->request->get["ref"] OR $ref = '/admin/categories';
 
 		$category = $id ? CategoryQuery::create()->findPK($id) : new Category();
 
@@ -68,18 +91,18 @@ class adminController  extends Controller {
 				$this->response->redirect($ref);
 			}
 		}
-		
-	
+		$title = $id ? "Редактирование категории" : "Новая категория";
 		$this->view->set([
+			'title' => $title,
 			'ref' => $ref,
 			'errors' => $category->getErrors(),
-			'category' => $category
+			'category' => $category,
+			'breadcrumbs' => [['Панель управления', '/admin'],['Категории', '/admin/categories'],[$title]]
 		]);
 	}
 
 	function editProductAction ($id) {
-		$ref =$this->request->get["ref"];
-		$ref = $ref ? $ref : '/admin/categories';
+		$ref = $this->request->get["ref"] OR $ref = '/admin/products';
 
 		$product = $id ? ProductQuery::create()->findPK($id) : new Product();
 
@@ -105,13 +128,15 @@ class adminController  extends Controller {
 				$this->response->redirect($ref);
 			}
 		}
-
+		$title = $id ? "Редактирование товара" : "Новый товар";
 		$this->view->set([
+			'title' => $title,
 			'ref' => $ref,
 			'errors' => $product->getErrors(),
 			'product' => $product,
 			'selectedCategories' => $product->getCategories()->toArray('Id'),
-			'categories' => CategoryQuery::create()->find()
+			'categories' => CategoryQuery::getNamesArray(),
+			'breadcrumbs' => [['Панель управления', '/admin'],['Товары', '/admin/products'],[$title]]
 		]);
 	}
 
@@ -121,7 +146,7 @@ class adminController  extends Controller {
 
 			CategoryQuery::create()->findPK($this->request->post["id"])->delete();
 
-			$this->response->redirect($_SERVER["HTTP_REFERER"]);
+			$this->response->redirect($this->request->server["HTTP_REFERER"]);
 		}
 
 		throw new CoreException;
@@ -134,7 +159,7 @@ class adminController  extends Controller {
 			
 			ProductQuery::create()->findPK($this->request->post["id"])->delete();
 
-			$this->response->redirect($_SERVER["HTTP_REFERER"]);
+			$this->response->redirect($this->request->server["HTTP_REFERER"]);
 		}
 
 		throw new CoreException;

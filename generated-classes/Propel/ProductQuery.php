@@ -3,6 +3,7 @@
 namespace Propel;
 
 use Propel\Base\ProductQuery as BaseProductQuery;
+use Propel\CategoryQuery;
 
 /**
  * Skeleton subclass for performing query and update operations on the 'product' table.
@@ -16,5 +17,24 @@ use Propel\Base\ProductQuery as BaseProductQuery;
  */
 class ProductQuery extends BaseProductQuery
 {
+    public function setFilters($data) {
+        
+        if(empty($data)) {
+            return $this;
+        }
+        foreach($data as $key => $value){
+            if(strlen(trim($value)) < 1) {
+                continue;
+            }
+            switch($key) {
+                case "id": $this->filterById($value); break;
+                case "name": $this->where('Product.Name LIKE ?', '%' . $value . '%'); break;
+                case "active": $this->filterByActive($value); break;
+                case "empty_order": $this->filterByEmptyOrder($value); break;
+                case "category": $this->useCategoryProductQuery()->filterByCategoryId($value)->endUse(); break;
+            } 
+        }
 
+        return $this;
+    }
 }

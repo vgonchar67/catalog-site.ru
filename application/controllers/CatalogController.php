@@ -18,8 +18,10 @@ class CatalogController  extends Controller {
 		$categories = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 		
 		$this->view->set([
+			'title' => "Каталог",
 			'categories' => $categories,
-			'pagenationHTML' =>  $pagenation->getHtml()
+			'pagenationHTML' =>  $pagenation->getHtml(),
+			'breadcrumbs' => [['Главная', '/'],['Каталог']]
 		]);
 	}
 
@@ -38,9 +40,31 @@ class CatalogController  extends Controller {
 		$products = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 
 		$this->view->set([
+			'title' => $category->getName(),
 			'category' => $category,
 			'products' => $products,
-			'pagenationHTML' => $pagenation->getHTML()
+			'pagenationHTML' => $pagenation->getHTML(),
+			'breadcrumbs' => [['Главная', '/'],['Каталог', '/catalog'],[$category->getName()]]
+		]);
+	}
+
+	public function productAction($categoryId, $productId) {
+		
+		$product = ProductQuery::create()->findPK($productId);
+
+		if(empty($product)) {
+			throw new CoreException;
+		}
+
+		$this->view->set([
+			'title' => $product->getName(),
+			'product' => $product,
+			'breadcrumbs' => [
+				['Главная', '/'],
+				['Каталог', '/catalog'],
+				[CategoryQuery::create()->findPK($categoryId)->getName(),"/catalog/$categoryId"],
+				[$product->getName()]
+			]
 		]);
 	}
 

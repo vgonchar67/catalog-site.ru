@@ -20,10 +20,10 @@ class Category extends BaseCategory
 
 	public function getErrors() {
 		$errors = array();
-		if(!method_exists($this, 'getValidationFailures')) {
-            return $errors;
+		if(method_exists($this, 'getValidationFailures')) {
+			$failures = $this->getValidationFailures();
         }
-        $failures = $this->getValidationFailures();
+
         if(is_null($failures)) {
             return $errors;
         }

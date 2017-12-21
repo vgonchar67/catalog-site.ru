@@ -7,17 +7,24 @@ use App\Core\Request;
 use App\Core\Router;
 use App\Core\Response;
 
+/**
+ * Основной класс приложения
+ */
 class Application {
 	
-	public function __construct($config) {
-		$this->config = new Registry($config);
+	public function __construct(array $config) {
+		$this->config = (object) $config;
 		$this->request = new Request;
 		$this->router = new Router($this->config->routes);
 		$this->response = new Response;
 		
-		//$this->setParams();
 	}
 	
+	/**
+	 * Запускает приложение
+	 *
+	 * @return void
+	 */
 	public function run() {
 		try {
 			$controller = $this->loadController();
@@ -30,6 +37,11 @@ class Application {
 		echo $this->response->getContent();
 	}
 	
+	/**
+	 * Возвращает контроллер по имени, полученного из роутера
+	 *
+	 * @return Controller
+	 */
 	protected function loadController() {
 		$controllerClassName = 'App\\controllers\\'. $this->router->getControllerName() . 'Controller';
 		if(!class_exists($controllerClassName)) {
@@ -38,12 +50,4 @@ class Application {
 		return new $controllerClassName($this);
 	}
 	
-	
-	/*protected function setParams()
-    {
-        define('DB_HOST', $this->config->db['host']);
-        define('DB_NAME', $this->config->db['name']);
-        define('DB_USER', $this->config->db['user']);
-        define('DB_PASSWORD', $this->config->db['password']);
-    }*/
 }

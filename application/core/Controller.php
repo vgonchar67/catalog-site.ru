@@ -3,16 +3,25 @@ namespace App\core;
 
 use App\exceptions\CoreException;
 
-class Controller {
+/**
+ * Абстрактный класс контроллера
+ */
+abstract class Controller {
 	public $application;
+	const DEFAULT_LAYOUT = "default";
 	
 	function __construct(Application $application) {
 		$this->application = $application;
 		$this->view = new View;
 		$this->view->setPath('/' . $this->router->getControllerName() . '/');
-		$this->view->setLayout('default');
+		$this->view->setLayout($this::DEFAULT_LAYOUT);
 	}
 	
+	/**
+	 * Вызывает Action контроллера и устанавливает контент в response
+	 *
+	 * @return void
+	 */
 	function run() {
 		$action = $this->router->getActionName() . "Action";
 		if (!method_exists($this, $action)) {

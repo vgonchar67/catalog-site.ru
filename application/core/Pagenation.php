@@ -3,6 +3,9 @@ namespace App\core;
 
 use App\Core\Uri;
 
+/**
+ * Класс для работы с пагинацией
+ */
 class Pagenation {
 
 	private $_currentPage, $_count, $_limit, $_countPages, $_link;
@@ -19,7 +22,12 @@ class Pagenation {
 		}
 		$this->_currentPage = $currentPage;
 	}
-
+	
+	 /**
+	  * Возвращает HTML код пагинации
+	  *
+	  * @return void
+	  */
 	function getHtml() {
 		if($this->_countPages <=1 ) {
 			return '';
@@ -29,6 +37,11 @@ class Pagenation {
 		return $view->parse('pagenation');
 	}
 
+	/**
+	 * Возвращает данные для пагинации
+	 *
+	 * @return array
+	 */
 	function getPagesArray() {
 		
 		$left = round($this->_viewPages/2);

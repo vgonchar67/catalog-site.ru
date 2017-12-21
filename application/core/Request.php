@@ -1,6 +1,9 @@
 <?php 
 namespace App\core;
 
+/**
+ * Класс для работы с запросом
+ */
 class Request {
 	
     public function __get($name) 
@@ -20,7 +23,7 @@ class Request {
 
         return $this->$name;
     }
-    
+	
 	public function isAjax() {
 		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'; 
 	}	

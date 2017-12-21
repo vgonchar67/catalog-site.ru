@@ -18,11 +18,17 @@ class IndexController  extends Controller {
 			->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE)
 			->toArray();
 		
-		$this->view->set(['categories' => [
-			'count'=> $count,
-			'items' => $categories,
-			'pagenationHTML' =>  $pagenation->getHtml()
-		]]);
+		$this->view->set([
+			'title' => "Главная страница", 
+			'categories' => [
+				'count'=> $count,
+				'items' => $categories,
+				'pagenationHTML' =>  $pagenation->getHtml()
+			],
+			'breadcrumbs' => [
+				['Главная', '/'],
+			]
+		]);
 	}
 
 } 
