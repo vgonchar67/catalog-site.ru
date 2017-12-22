@@ -11,6 +11,7 @@
 				<div class="input-group-addon">Категория</div>
 				<select class="form-control" name="category">
 					<option></option>
+					<option value="0" {{ filter.category == "0" ? 'selected' }}>(Без категории)</option>
 					{% for item in categories %}
 					<option value="{{ item.id }}" {{ filter.category == item.id ? 'selected' }}>[{{ item.id }}] - {{ item.name }}</option>
 					{% endfor %}

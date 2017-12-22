@@ -4,6 +4,7 @@ namespace Propel;
 
 use Propel\Base\ProductQuery as BaseProductQuery;
 use Propel\CategoryQuery;
+use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * Skeleton subclass for performing query and update operations on the 'product' table.
@@ -35,7 +36,22 @@ class ProductQuery extends BaseProductQuery
                 case "name": $this->where('Product.Name LIKE ?', '%' . $value . '%'); break;
                 case "active": $this->filterByActive($value); break;
                 case "empty_order": $this->filterByEmptyOrder($value); break;
-                case "category": $this->useCategoryProductQuery()->filterByCategoryId($value)->endUse(); break;
+                case "category": 
+                    if($value == "0") {
+                        // Временный костыль, пока не смог реализовать выборку товаров без категории
+                        $ids = array();
+                        $products = ProductQuery::create()->find();
+                        foreach($products as $product) {
+                            if(!$product->countCategories()) {
+                                $ids[] = $product->getId();
+                            }
+                        }
+                        $this->filterById($ids);
+                    } else {
+                        $this->useCategoryProductQuery()->filterByCategoryId($value)->endUse(); 
+                    }
+                    
+                    break;
             } 
         }
 
