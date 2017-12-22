@@ -23,6 +23,7 @@ abstract class Controller {
 	 * @return void
 	 */
 	function run() {
+		
 		$action = $this->router->getActionName() . "Action";
 		if (!method_exists($this, $action)) {
 			throw new CoreException;

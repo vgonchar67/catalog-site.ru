@@ -31,7 +31,10 @@ class Uri
 		if($parsedUrl !== false)
 		{
 			$this->scheme = (isset($parsedUrl["scheme"])? strtolower($parsedUrl["scheme"]) : "http");
-			$this->host = $parsedUrl["host"];
+			if(isset($parsedUrl["host"]))
+			{
+				$this->host = $parsedUrl["host"];
+			}
 			if(isset($parsedUrl["port"]))
 			{
 				$this->port = $parsedUrl["port"];
@@ -40,11 +43,24 @@ class Uri
 			{
 				$this->port = ($this->scheme == "https"? 443 : 80);
 			}
-			$this->user = $parsedUrl["user"];
-			$this->pass = $parsedUrl["pass"];
+			if(isset($parsedUrl["user"]))
+			{
+				$this->host = $parsedUrl["user"];
+			}
+			if(isset($parsedUrl["pass"]))
+			{
+				$this->host = $parsedUrl["pass"];
+			}
 			$this->path = ((isset($parsedUrl["path"])? $parsedUrl["path"] : "/"));
-			$this->query = $parsedUrl["query"];
-			$this->fragment = $parsedUrl["fragment"];
+			if(isset($parsedUrl["query"]))
+			{
+				$this->query = $parsedUrl["query"];
+			}
+			if(isset($parsedUrl["fragment"]))
+			{
+				$this->fragment = $parsedUrl["fragment"];
+			}
+			
 		}
 	}
 

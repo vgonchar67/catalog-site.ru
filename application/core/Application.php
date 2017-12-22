@@ -26,10 +26,12 @@ class Application {
 	 * @return void
 	 */
 	public function run() {
+		Session::start();
 		try {
 			$controller = $this->loadController();
 			$controller->run();
 		} catch (CoreException $e){
+			
 			$this->router->error404();
 			$this->loadController()->run();
 		}
@@ -47,6 +49,10 @@ class Application {
 		if(!class_exists($controllerClassName)) {
 			throw new CoreException;
 		}
+	
+		
+		
+		
 		return new $controllerClassName($this);
 	}
 	

@@ -1,5 +1,9 @@
 AddDefaultCharset UTF-8
 
+php_flag display_errors On
+#показать все ошибки кроме предупреждений (Notice)
+php_value error_reporting "E_ALL"
+php_value output_buffering Off
 RewriteEngine On
 
 RewriteRule .? public/

@@ -8,6 +8,7 @@ use Propel\Product;
 use Propel\ProductQuery;
 use App\core\Pagenation;
 use App\Exceptions\CoreException;
+use App\Core\Session;
 
 class adminController  extends Controller {
 
@@ -31,9 +32,9 @@ class adminController  extends Controller {
 			} 
 			$this->response->redirect($this->request->server["REDIRECT_URL"]);
 		}
-
-		$q = CategoryQuery::create()->setFilters($_SESSION['category_filter']);
-		$pagenation = new Pagenation($q->count(), self::COUNT_ON_PAGE, $this->request->get['page']);
+		$page = empty($this->request->get['page'])?1:$this->request->get['page'];
+		$q = CategoryQuery::create()->setFilters(Session::get('category_filter'));
+		$pagenation = new Pagenation($q->count(), self::COUNT_ON_PAGE, $page);
 		$categories = $q->paginate($pagenation->getCurrentPage(), self::COUNT_ON_PAGE);
 
 		$this->view->set([

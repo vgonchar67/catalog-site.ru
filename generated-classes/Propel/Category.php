@@ -17,7 +17,11 @@ use Propel\Runtime\Connection\ConnectionInterface;
  */
 class Category extends BaseCategory
 {
-
+	/**
+	 * Возвращает список ошибок
+	 *
+	 * @return array
+	 */
 	public function getErrors() {
 		$errors = array();
 		if(method_exists($this, 'getValidationFailures')) {
