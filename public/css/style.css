@@ -50,7 +50,7 @@ header {
 }
 
 .page-content {
-
+	margin-bottom: 30px;
  }
  .shadow {
  	-webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.3);
@@ -180,6 +180,10 @@ footer {
 .product-options {
 	padding:15px;
 	border-radius: 4px;
+	text-align: center;
+}
+.product-options p {
+	padding: 10px;
 }
 
 .category-list .thumbnail-text{

@@ -15,7 +15,7 @@
             <p class="bg-danger">Нет в наличии</p>
           {% endif %}
           {% if item.getQuantity() or item.emptyOrder() %}
-            <p><a href="#" class="btn btn-primary" role="button">Заказать</a></p>
+            <p><a href="javascript:alert('Спасибо за заказ!')" class="btn btn-primary" role="button">Заказать</a></p>
           {% endif %}
         </div>
       </div>
