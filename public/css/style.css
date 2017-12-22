@@ -4,6 +4,7 @@ body {
 	overflow-y: scroll!important;
 	/*background: #e7e7e7;*/
 	min-height: 100vh;
+	position: relative;
 }
 .modal-open {
 	padding-right:0!important;
@@ -97,13 +98,14 @@ footer {
 }
 
 .filter-form {
-	padding : 5px;
-	margin: 0 -5px;
-	background: #d6dae3;
+	padding: 15px 0;
+    margin: 0 -5px;
+    background: #e7e7e7;
+    border-radius: 5px;
 }
 
 .filter-form.active {
-	background: #a3c97e;
+	background: #d0e4bc;
 
 }
 
@@ -114,3 +116,80 @@ footer {
 .pt7 {
 	padding-top: 7px;
 }
+
+.form-group .interval input{
+	width:50%;
+}
+.gp404{margin: 142px 0;}
+.gp404 img{max-width: 100%}
+.b-title{ font-size: 30px; margin: 48px 0 24px; }
+.gpButtons{ margin-top: 58px; }
+
+.gpButtons .btn{
+	position: relative;
+	width: 180px;
+}
+
+.thumbnail-top {
+	height: 170px;
+	overflow: hidden;
+	display: table;
+	width: 100%;
+}
+.thumbnail-top > * {
+	display: table-row;
+	
+}
+
+.thumbnail-top h4 {
+	text-align: center;
+	background: #ececec;
+}
+.middle-cell {
+	display:table-cell;
+	vertical-align: middle;
+}
+
+.thumbnail-bottom {
+	height: 35px;
+    display: table;
+    width: 100%;
+}
+
+.thumbnail-bottom >* {
+	display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.thumbnail-text {
+	color: #737373;
+}
+.mb15 {
+	margin-bottom: 15px;
+}
+.mb30 {
+	margin-bottom: 30px;
+}
+.mt15 {
+	margin-top: 15px;
+}
+.mt30 {
+	margin-top: 30px;
+}
+.product-options {
+	padding:15px;
+	border-radius: 4px;
+}
+
+.category-list .thumbnail-text{
+	height: 130px;
+}
+.category-list h3 a {
+	white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
+	text-overflow: ellipsis;
+	display: block;
+}
+	

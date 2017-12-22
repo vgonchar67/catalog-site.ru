@@ -27,12 +27,6 @@ class View {
 		$this->twig = new \Twig_Environment($this->loader);
 	}
 	
-	/**
-	 * Undocumented function
-	 *
-	 * @param array $arr
-	 * @return void
-	 */
 	function set(array $arr) {
 		foreach ($arr as $key => $value) {
 			$this->data[$key] = $value;

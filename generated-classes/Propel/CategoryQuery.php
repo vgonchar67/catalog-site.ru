@@ -28,6 +28,8 @@ class CategoryQuery extends BaseCategoryQuery
             }
             switch($key) {
                 case "id": $this->filterById($value); break;
+                case "id_from": $this->filterById(['min' => $value]); break;
+                case "id_to": $this->filterById(['max' => $value]); break;
                 case "name": $this->where('Category.Name LIKE ?', '%' . $value . '%'); break;
                 case "active": $this->filterByActive($value); break;
             } 

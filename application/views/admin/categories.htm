@@ -1,17 +1,21 @@
-<form action="/admin/categories" class="form-inline filter-form {{ filter ? 'active' }}" method="post">
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">id</div>
-			<input type="text" class="form-control" name="id" value="{{ filter.id }}">
+<form action="/admin/categories" class="row shadow filter-form {{ filter ? 'active' }}" method="post">
+	<div class="col-sm-6">
+		<div class="form-group form-group-sm">
+			<div class="input-group interval">
+				<div class="input-group-addon">id</div>
+				<input type="text" class="form-control" name="id_from" value="{{ filter.id_from }}" placeholder="от">
+				<input type="text" class="form-control" name="id_to" value="{{ filter.id_to }}" placeholder="до">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">Название</div>
+				<input type="text" class="form-control" name="name" value="{{ filter.name }}">
+			</div>
 		</div>
 	</div>
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">Название</div>
-			<input type="text" class="form-control" name="name" value="{{ filter.name }}">
-		</div>
-	</div>
-	<div class="form-group form-group-sm">
+	<div class="col-sm-6">
+		<div class="form-group form-group-sm">
 			<div class="input-group">
 				<div class="input-group-addon">Активность</div>
 				<select class="form-control" name="active" value="{{ filter.active }}">
@@ -21,8 +25,9 @@
 				</select>
 			</div>
 		</div>
-	<button type="submit" class="btn btn-default">Найти</button>
-	<button type="submit" name="cancel" value="1" class="btn btn-default">Отмена</button>
+		<button type="submit" class="btn btn-default">Найти</button>
+		<button type="submit" name="cancel" value="1" class="btn btn-default">Отмена</button>
+	</div>
 </form>
 <br>
 <a href="/admin/categories/edit/0?ref={{ curUrlEncode }}" class="btn btn-primary active" role="button">Добавить категорию</a>

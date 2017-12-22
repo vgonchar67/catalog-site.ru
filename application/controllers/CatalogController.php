@@ -9,7 +9,7 @@ use App\exceptions\CoreException;
 
 class CatalogController  extends Controller {
 
-	const COUNT_ON_PAGE = 20;
+	const COUNT_ON_PAGE = 6;
 
 	function indexAction () {
 

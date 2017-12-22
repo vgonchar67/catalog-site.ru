@@ -11,7 +11,7 @@ use App\Exceptions\CoreException;
 
 class adminController  extends Controller {
 
-	const COUNT_ON_PAGE = 2;
+	const COUNT_ON_PAGE = 10;
 	const DEFAULT_LAYOUT = 'admin';
 
 	function indexAction () {
@@ -29,6 +29,7 @@ class adminController  extends Controller {
 			} else {
 				$_SESSION['category_filter'] = $this->request->post;
 			} 
+			$this->response->redirect($this->request->server["REDIRECT_URL"]);
 		}
 
 		$q = CategoryQuery::create()->setFilters($_SESSION['category_filter']);
@@ -51,8 +52,9 @@ class adminController  extends Controller {
 			if($this->request->post["cancel"]) {
 				unset($_SESSION['product_filter']);
 			} else {
-				$_SESSION['product_filter'] = $this->request->post;
+				$_SESSION['product_filter'] = array_filter($this->request->post, 'strlen');
 			} 
+			$this->response->redirect($this->request->server["REDIRECT_URL"]);
 		}
 
 		$q = ProductQuery::create()->setFilters($_SESSION['product_filter']);

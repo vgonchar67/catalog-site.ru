@@ -1,52 +1,66 @@
-<form action="/admin/products" class="form-inline filter-form {{ filter ? 'active' }}" method="post">
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">Категория</div>
-			<select class="form-control" name="category">
-				<option></option>
-				{% for item in categories %}
-				<option value="{{ item.id }}" {{ filter.category == item.id ? 'selected' }}>[{{ item.id }}] - {{ item.name }}</option>
-				{% endfor %}
-			</select>
+<form action="/admin/products" class="filter-form {{ filter ? 'active' }} row shadow" method="post">
+	<div class="col-sm-6">
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">Название</div>
+				<input type="text" class="form-control" name="name" value="{{ filter.name }}">
+			</div>
 		</div>
-	</div>
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">id</div>
-			<input type="text" class="form-control" name="id" value="{{ filter.id }}">
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">Категория</div>
+				<select class="form-control" name="category">
+					<option></option>
+					{% for item in categories %}
+					<option value="{{ item.id }}" {{ filter.category == item.id ? 'selected' }}>[{{ item.id }}] - {{ item.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
 		</div>
+		<div class="form-group form-group-sm">
+			<div class="input-group interval">
+				<div class="input-group-addon">id</div>
+				<input type="text" class="form-control" name="id_from" value="{{ filter.id_from }}" placeholder="от">
+				<input type="text" class="form-control" name="id_to" value="{{ filter.id_to }}" placeholder="до">
+			</div>
+		</div>
+		
+		
 	</div>
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">Название</div>
-			<input type="text" class="form-control" name="name" value="{{ filter.name }}">
+	<div class="col-sm-6">
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">Активность</div>
+				<select class="form-control" name="active">
+					<option></option>
+					<option value="1" {{ filter.active == '1' ? "selected"}}>Да</option>
+					<option value="0" {{ filter.active == '0' ? "selected"}}>Нет</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<div class="input-group interval">
+				<div class="input-group-addon">Количество</div>
+				<input type="text" class="form-control" name="quantity_from" value="{{ filter.quantity_from }}" placeholder="от">
+				<input type="text" class="form-control" name="quantity_to" value="{{ filter.quantity_to }}" placeholder="до">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<div class="input-group">
+				<div class="input-group-addon">Заказ при отсутствии на складе</div>
+				<select class="form-control" name="empty_order">
+					<option></option>
+					<option value="1" {{ filter.empty_order == '1' ? "selected"}}>Да</option>
+					<option value="0" {{ filter.empty_order == '0' ? "selected"}}>Нет</option>
+				</select>
+			</div>
+		</div>
+		<div>
+			<button type="submit" class="btn btn-default">Найти</button>
+			<button type="submit" name="cancel" value="1" class="btn btn-default">Отмена</button>
 		</div>
 	</div>
 	
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">Активность</div>
-			<select class="form-control" name="active">
-				<option></option>
-				<option value="1" {{ filter.active == '1' ? "selected"}}>Да</option>
-				<option value="0" {{ filter.active == '0' ? "selected"}}>Нет</option>
-			</select>
-		</div>
-	</div>
-	<div class="form-group form-group-sm">
-		<div class="input-group">
-			<div class="input-group-addon">Заказ при отсутствии на складе</div>
-			<select class="form-control" name="empty_order">
-				<option></option>
-				<option value="1" {{ filter.empty_order == '1' ? "selected"}}>Да</option>
-				<option value="0" {{ filter.empty_order == '0' ? "selected"}}>Нет</option>
-			</select>
-		</div>
-	</div>
-	<div>
-		<button type="submit" class="btn btn-default">Найти</button>
-		<button type="submit" name="cancel" value="1" class="btn btn-default">Отмена</button>
-	</div>
 </form>
 <br>
 <a href="/admin/products/edit/0?ref={{ curUrlEncode }}" class="btn btn-primary active" role="button">Добавить товар</a>
